@@ -10,3 +10,4 @@ public class SecurityWebApplicationInitializer
         super(SecurityConfig.class);
     }
 }
+

@@ -1,0 +1,46 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:security="http://www.springframework.org/schema/c" xsi:schemalocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+             http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+             http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/theme/" cache-period="31556926"/>-->
+
+    <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/js/**" location="/js/" />
+
+    <mvc:annotation-driven />
+
+    <!--<context:component-scan base-package="com.qssoft" />-->
+
+    <!--<security:http auto-config="true">-->
+        <!--<security:form-login login-page="/login"-->
+                             <!--login-processing-url="/postlogin"-->
+                             <!--default-target-url="/myaccount"-->
+                             <!--authentication-failure-url="/login?loginError=true" />-->
+        <!--<security:logout logout-url="/logout" />-->
+    <!--</security:http>-->
+
+    <!--<http use-expressions="true" auto-config="false">-->
+        <!--<intercept-url pattern="/home" access="hasRole('ROLE_USER')" />-->
+        <!--<intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />-->
+
+        <!--<form-login login-page="/login" default-target-url="/home" authentication-failure-url="/login?error=" />-->
+        <!--<logout invalidate-session="true" logout-success-url="/logout" />-->
+    <!--</http>-->
+
+    <!--<authentication-manager>-->
+        <!--<authentication-provider user-service-ref="customUserDetailsService">-->
+        <!--</authentication-provider>-->
+    <!--</authentication-manager>-->
+
+    <!--<beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />-->
+    <!--<beans:bean id="customUserDetailsService" class="com.qssoft.services.RealEstateUserDetailsService" />-->
+
+    <!--Controllers-->
+    <!--<mvc:view-controller path="/login" view-name="login" />-->
+    <!--<mvc:view-controller path="/logout" view-name="logout" />-->
+</beans:beans>

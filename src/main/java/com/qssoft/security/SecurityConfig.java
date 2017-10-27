@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,6 +27,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
         auth.authenticationProvider(authenticationProvider());
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/resources/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+            .logout()
+                .permitAll();
     }
 
     @Bean
