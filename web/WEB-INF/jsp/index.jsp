@@ -1,16 +1,14 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sergii.korobko
-  Date: 24-Oct-17
-  Time: 01:10
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<sec:authentication var="user" property="principal" />
 <html>
   <head>
-    <title>$Title$</title>
+    <title>Home page</title>
   </head>
   <body>
-  $END$
+  <sec:authorize access="isAuthenticated()">
+      Welcome <sec:authentication property="principal.username" />
+  </sec:authorize>
   </body>
 </html>

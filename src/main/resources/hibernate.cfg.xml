@@ -18,11 +18,7 @@
 
     <property name="hibernate.current_session_context_class">thread</property>
 
-    <!--<property name="show_sql">true</property>-->
-
-    <!--<property name="hbm2ddl.auto">create</property>-->
-
-    <!--<mapping resource="org/hibernate/tutorial/hbm/Event.hbm.xml"/>-->
     <mapping class="com.qssoft.entities.Role"/>
+    <mapping class="com.qssoft.entities.User"/>
   </session-factory>
 </hibernate-configuration>

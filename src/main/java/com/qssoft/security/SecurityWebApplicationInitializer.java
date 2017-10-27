@@ -1,6 +1,7 @@
-package org.springframework.security.samples.config;
+package com.qssoft.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
+
 
 public class SecurityWebApplicationInitializer
         extends AbstractSecurityWebApplicationInitializer {
