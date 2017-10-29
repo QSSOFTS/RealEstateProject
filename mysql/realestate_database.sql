@@ -44,9 +44,13 @@ INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('buyer', 'buyer', (S
 DROP TABLE IF EXISTS `RealEstateStatus`;
 CREATE TABLE `RealEstateStatus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` int(11) NOT NULL,
+  `name` VARCHAR(128) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `RealEstateStatus` (`name`) VALUES ('NEW');
+INSERT INTO `RealEstateStatus` (`name`) VALUES ('APPROVED');
+INSERT INTO `RealEstateStatus` (`name`) VALUES ('DELETED');
 
 DROP TABLE IF EXISTS `RealEstates`;
 CREATE TABLE `RealEstates` (
@@ -59,6 +63,8 @@ CREATE TABLE `RealEstates` (
   `address` VARCHAR(512) NOT NULL,
   `price` decimal(6,2) NOT NULL,
   `nearbyLocations` VARCHAR(512) NOT NULL,
+  `lat` FLOAT(10, 6) NOT NULL,
+  `lng` FLOAT(10, 6) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`ownerId`) REFERENCES `Users`(id) ON UPDATE CASCADE,
   FOREIGN KEY (`statusId`) REFERENCES `RealEstateStatus`(id) ON UPDATE CASCADE
