@@ -1,20 +1,16 @@
 package com.qssoft.entities;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.stereotype.Component;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table( name = "RealEstates" )
+@Table(name = "Realestates")
 public class RealEstate implements Serializable
 {
     private static final long serialVersionUID = 1L;

@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 @Transactional
 public class RealEstateDAO
 {
-    public void addRealEstate(Property realEstateDTO)
+    public void createUpdateProperty(Property realEstateDTO)
     {
         Session session = SessionFactoryHelper.getSession();
 
@@ -24,8 +24,6 @@ public class RealEstateDAO
         try {
             Transaction transaction = session.beginTransaction();
 
-            transaction.commit();
-
             session.saveOrUpdate(entity);
 
             transaction.commit();
@@ -33,7 +31,6 @@ public class RealEstateDAO
         } catch (RuntimeException ex) {
             ex.printStackTrace();
         } finally {
-            session.flush();
             session.close();
         }
 
