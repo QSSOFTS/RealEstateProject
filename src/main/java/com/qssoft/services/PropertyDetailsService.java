@@ -1,7 +1,5 @@
 package com.qssoft.services;
 
-import com.qssoft.dao.DealTypeDAO;
-import com.qssoft.dao.PropertyStatusDAO;
 import com.qssoft.dao.RealEstateDAO;
 import com.qssoft.dto.Property;
 import com.qssoft.entities.RealEstate;
@@ -23,8 +21,9 @@ public class PropertyDetailsService
         realEstateDAO.createUpdateProperty(property);
     }
 
-    public void getPropertyById(String id) {
-        realEstateDAO.getPropertyById(id);
+    public Property getPropertyById(String id) {
+        RealEstate realEstate = realEstateDAO.getPropertyById(Integer.parseInt(id));
+        return realEstateToPropertyHelperService.entityToProperty(realEstate);
     }
 
     public List<Property> getApprovedProperties() {
@@ -47,7 +46,7 @@ public class PropertyDetailsService
     }
 
     public void approveProperty(Integer propertyId) {
-        realEstateDAO.changePropertyStatus(propertyId, 3);
+        realEstateDAO.changePropertyStatus(propertyId, 2);
     }
 
 }

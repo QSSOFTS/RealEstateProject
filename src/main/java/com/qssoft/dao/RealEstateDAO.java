@@ -121,7 +121,7 @@ public class RealEstateDAO
         return result;
     }
 
-    public RealEstate getPropertyById(String id) {
+    public RealEstate getPropertyById(Integer id) {
         Session session = SessionFactoryHelper.getSession();
         session.beginTransaction();
         RealEstate result = session.get(RealEstate.class, id);

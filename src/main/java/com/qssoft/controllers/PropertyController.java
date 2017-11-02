@@ -5,16 +5,18 @@ import com.qssoft.security.UserAccessHelper;
 import com.qssoft.services.DealTypeService;
 import com.qssoft.services.PropertyDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
@@ -52,6 +54,13 @@ public class PropertyController
         return "property/updateProperty";
     }
 
+    @RequestMapping(value="/viewProperty/{id}", method = RequestMethod.GET)
+    public String viewPropertyDetails (@PathVariable("id") final String id, Model model) {
+
+        model.addAttribute("property", propertyDetailsService.getPropertyById(id));
+        return "property/viewProperty";
+    }
+
     @ResponseBody
     @RequestMapping(value = "/deleteProperty/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public String deleteProperty(@PathVariable("id") final String id)
@@ -63,14 +72,11 @@ public class PropertyController
 
     @ResponseBody
     @RequestMapping(value = "/approveProperty/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String approveProperty(@PathVariable("id") final String id)
-            throws Exception
+    public ResponseEntity<String> approveProperty(@PathVariable("id") final String id)
     {
         propertyDetailsService.approveProperty(Integer.parseInt(id));
-        return "success";
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
-
-
 
     @RequestMapping(value="/addProperty", method = RequestMethod.POST)
     public void addProperty (@ModelAttribute Property property, HttpServletResponse response) throws IOException {
@@ -86,10 +92,6 @@ public class PropertyController
 //    list of properties according to user id
 
 //    search
-
-//    remove
-
-//    approve
 
 //    get property by id
 

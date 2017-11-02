@@ -29,7 +29,7 @@ public class HomePageController
             int userId = UserAccessHelper.getUserId();
             propertiesList = propertyDetailsService.getPropertiesByOwnerId(userId);
         } else if (UserAccessHelper.isBuyer()) {
-            propertyDetailsService.getApprovedProperties();
+            propertiesList = propertyDetailsService.getApprovedProperties();
         }
         model.addAttribute("propertiesList", propertiesList);
 

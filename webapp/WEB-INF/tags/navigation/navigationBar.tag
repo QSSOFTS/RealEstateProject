@@ -29,7 +29,10 @@
     </sec:authorize>
 
     <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_OWNER', 'ROLE_BUYER')">
-        <a href="<c:url value="/addProperty"/>">Search for property</a>
+        <a href="<c:url value="/addProperty"/>">
+            <input type="text" id="search" name="search" value="${property.title}"/>
+            <input id="searchButton" type="button" value="Search">
+        </a>
     </sec:authorize>
 
     <a href="<c:url value="/logout"/>" style="float:right">

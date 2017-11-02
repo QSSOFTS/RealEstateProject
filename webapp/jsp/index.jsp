@@ -8,8 +8,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
   <head>
     <title>List of available properties</title>
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
   </head>
   <body>
 
@@ -39,7 +37,7 @@
               <p>Status</p>
             </div>
           </sec:authorize>
-          <sec:authorize access="hasAnyRole('ROLE_OWNER', 'ROLE_ADMIN')">
+          <sec:authorize access="hasAnyRole('ROLE_OWNER', 'ROLE_ADMIN', 'ROLE_BUYER')">
             <div class="table-property-cell">
               <p>Action</p>
             </div>
@@ -73,6 +71,12 @@
               </sec:authorize>
             </div>
           </sec:authorize>
+          <sec:authorize access="hasAnyRole('ROLE_BUYER')">
+            <div class="table-property-cell">
+              <input type="button" onclick="location.href='/viewProperty/' + ${property.id};" style="background: greenyellow" value="View" />
+              <%--<button class="btn js_view_property_btn" style="background: greenyellow">View</button>--%>
+            </div>
+          </sec:authorize>
         </div>
         </c:forEach>
       </div>
@@ -92,12 +96,8 @@
 
 <script type="application/javascript">
   $(document).ready(function() {
-    var token = $("meta[name='_csrf']").attr("content");
-    console.log(token);
-    var header = $("meta[name='_csrf_header']").attr("content");
     $(".js_delete_property_btn").on('click', function(event) {
-      var index = 2;
-//      console.log($(event));
+      var index = $(event.target).closest('.table-property-row').find('.js_property_id').val();
       $.ajax({
         type: 'POST',
         url: '/deleteProperty/' + index,
@@ -105,13 +105,47 @@
         cache: false,
         crossDomain: false,
         success: function(result){
-          console.log("Here!");
+          location.reload();
+        },
+        error: function (result) {
           location.reload();
         },
       });
+    });
 
-//      ($(event.target).closest('.js_property_id').val());
-
+    $(".js_approve_property_btn").on('click', function(event) {
+      var index = $(event.target).closest('.table-property-row').find('.js_property_id').val();
+      $.ajax({
+        type: 'POST',
+        url: '/approveProperty/' + index,
+        contentType: "application/json",
+        cache: false,
+        crossDomain: false,
+        success: function(result){
+          location.reload();
+        },
+        error: function (result) {
+          location.reload();
+        },
+      });
     });
   });
+
+  $(".js_view_property_btn").on('click', function(event) {
+    var index = $(event.target).closest('.table-property-row').find('.js_property_id').val();
+    $.ajax({
+      type: 'POST',
+      url: '/viewProperty/' + index,
+      contentType: "application/json",
+      cache: false,
+      crossDomain: false,
+      success: function(result){
+        location.reload();
+      },
+      error: function (result) {
+        location.reload();
+      },
+    });
+  });
+
 </script>
