@@ -5,42 +5,113 @@
 
 <%@ taglib prefix="navigation" tagdir="/WEB-INF/tags/navigation"%>
 
-<%--<sec:authentication var="user" property="principal" />--%>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
   <head>
-    <title>Home page</title>
+    <title>List of available properties</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
   </head>
   <body>
 
   <navigation:navigationBar/>
-  <%--<div class="topnav" id="myTopnav">--%>
-    <%--<a href="#home">Home</a>--%>
 
-    <%--<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_OWNER')">--%>
-      <%--<a href="<c:url value="/createAd"/>">Create Ad</a>--%>
-    <%--</sec:authorize>--%>
+  <c:choose>
+    <c:when test="${not empty propertiesList}">
+      <div class="table-property">
+        <div class="table-property-title">
+          <p>Here is the list of properties</p>
+        </div>
+        <div class="table-property-heading">
+          <div class="table-property-cell">
+            <p>Type</p>
+          </div>
+          <div class="table-property-cell">
+            <p>Title</p>
+          </div>
+          <div class="table-property-cell">
+            <p>Price</p>
+          </div>
+          <div class="table-property-cell">
+            <p>Address</p>
+          </div>
+          <sec:authorize access="hasAnyRole('ROLE_OWNER', 'ROLE_ADMIN')">
+            <div class="table-property-cell">
+              <p>Status</p>
+            </div>
+          </sec:authorize>
+          <sec:authorize access="hasAnyRole('ROLE_OWNER', 'ROLE_ADMIN')">
+            <div class="table-property-cell">
+              <p>Action</p>
+            </div>
+          </sec:authorize>
+        </div>
+        <c:forEach items="${propertiesList}" var="property">
+        <div class="table-property-row">
+          <input type="hidden" class="js_property_id" value="${property.id}" />
+          <div class="table-property-cell">
+            <p>${property.dealDescription}</p>
+          </div>
+          <div class="table-property-cell">
+            <p>${property.title}</p>
+          </div>
+          <div class="table-property-cell">
+            <p>${property.price}</p>
+          </div>
+          <div class="table-property-cell">
+            <p>${property.address}</p>
+          </div>
+          <sec:authorize access="hasAnyRole('ROLE_OWNER', 'ROLE_ADMIN')">
+            <div class="table-property-cell">
+              <p>${property.statusDescription}</p>
+            </div>
+          </sec:authorize>
+          <sec:authorize access="hasAnyRole('ROLE_OWNER', 'ROLE_ADMIN')">
+            <div class="table-property-cell">
+              <button class="btn js_delete_property_btn" style="background: orangered">Delete</button>
+              <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+                <button class="btn js_approve_property_btn" style="background: greenyellow">Approve</button>
+              </sec:authorize>
+            </div>
+          </sec:authorize>
+        </div>
+        </c:forEach>
+      </div>
+    </c:when>
 
-    <%--<sec:authorize access="hasAnyRole('ROLE_OWNER')">--%>
-      <%--<a href="<c:url value="/myMessages"/>">My messages</a>--%>
-    <%--</sec:authorize>--%>
+    <c:otherwise>
+      <div style="display: table; width: 100%;">
+        <div style="display: table-row;">
+          There is nothing to display now.
+        </div>
+      </div>
+    </c:otherwise>
+  </c:choose>
 
-    <%--<a href="#contact">Contact</a>--%>
-
-    <%--<a href="<c:url value="/logout"/>" style="float:right">--%>
-      <%--<sec:authorize access="isAuthenticated()">--%>
-        <%--Logout--%>
-      <%--</sec:authorize>--%>
-    <%--</a>--%>
-
-    <%--<a href="#" style="float:right">--%>
-      <%--<sec:authorize access="isAuthenticated()">--%>
-        <%--Welcome | <sec:authentication property="principal.username" />--%>
-      <%--</sec:authorize>--%>
-    <%--</a>--%>
-  <%--</div>--%>
-
-  <%--<sec:authorize access="isAuthenticated()">--%>
-      <%--Welcome <sec:authentication property="principal.username" />--%>
-  <%--</sec:authorize>--%>
   </body>
 </html>
+
+<script type="application/javascript">
+  $(document).ready(function() {
+    var token = $("meta[name='_csrf']").attr("content");
+    console.log(token);
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(".js_delete_property_btn").on('click', function(event) {
+      var index = 2;
+//      console.log($(event));
+      $.ajax({
+        type: 'POST',
+        url: '/deleteProperty/' + index,
+        contentType: "application/json",
+        cache: false,
+        crossDomain: false,
+        success: function(result){
+          console.log("Here!");
+          location.reload();
+        },
+      });
+
+//      ($(event.target).closest('.js_property_id').val());
+
+    });
+  });
+</script>

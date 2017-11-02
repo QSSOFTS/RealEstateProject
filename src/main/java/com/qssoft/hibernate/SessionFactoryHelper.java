@@ -7,6 +7,9 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.SessionFactory;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 public class SessionFactoryHelper
 {
     private static final SessionFactory sessionFactory;
@@ -28,4 +31,8 @@ public class SessionFactoryHelper
     public static Session getSession() {
         return sessionFactory.getCurrentSession();
     }
+//    public static EntityManager getEntityManager() {
+//        EntityManagerFactory entityManagerFacstory = getSession().getEntityManagerFactory();
+//        return entityManagerFactory.createEntityManager();
+//    }
 }

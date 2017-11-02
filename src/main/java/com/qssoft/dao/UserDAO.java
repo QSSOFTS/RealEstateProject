@@ -44,6 +44,16 @@ public class UserDAO
         return user;
     }
 
+    public User getUserById(final int id)
+    {
+        Session session = SessionFactoryHelper.getSession();
+        session.beginTransaction();
+        User user = session.get(User.class, id);
+        session.getTransaction().commit();
+        return user;
+    }
+
+
     /*
     public User getUserByLogin(final String login)
     {

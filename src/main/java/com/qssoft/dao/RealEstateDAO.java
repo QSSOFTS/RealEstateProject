@@ -2,14 +2,25 @@ package com.qssoft.dao;
 
 
 import com.qssoft.dto.Property;
+import com.qssoft.entities.DealType;
 import com.qssoft.entities.RealEstate;
+import com.qssoft.entities.Status;
+import com.qssoft.entities.User;
 import com.qssoft.hibernate.SessionFactoryHelper;
 import com.qssoft.security.UserAccessHelper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -36,11 +47,120 @@ public class RealEstateDAO
 
     }
 
+    public List<RealEstate> getPropertiesListForAdmin() {
+        Session session = SessionFactoryHelper.getSession();
+        List<RealEstate> result = null;
+        try {
+            session.beginTransaction();
+            result = session.createQuery( "from RealEstate" ).list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.getTransaction().commit();
+                session.close();
+            }
+        }
+        return result;
+    }
+
+    public List<RealEstate> getApprovedProperties() {
+        Session session = SessionFactoryHelper.getSession();
+        List<RealEstate> result = null;
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("from RealEstate where statusId = :statusId");
+            query.setParameter("statusId", 2);
+            result = query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.getTransaction().commit();
+                session.close();
+            }
+        }
+        return result;
+    }
+
+    public void changePropertyStatus(Integer id, Integer statusId) {
+        Session session = SessionFactoryHelper.getSession();
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("update RealEstate rs set rs.statusId = :statusId where rs.id = :id");
+            query.setParameter("statusId", statusId);
+            query.setParameter("id", id);
+            query.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.getTransaction().commit();
+                session.close();
+            }
+        }
+    }
+
+
+    public List<RealEstate> getPropertiesListByOwner(Integer ownerId) {
+        Session session = SessionFactoryHelper.getSession();
+        List<RealEstate> result = null;
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("from RealEstate where ownerId = :ownerId");
+            query.setParameter("ownerId", ownerId);
+            result = query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.getTransaction().commit();
+                session.close();
+            }
+        }
+        return result;
+    }
+
+    public RealEstate getPropertyById(String id) {
+        Session session = SessionFactoryHelper.getSession();
+        session.beginTransaction();
+        RealEstate result = session.get(RealEstate.class, id);
+        session.getTransaction().commit();
+        return result;
+    }
+
+//        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+//
+//        RealEstate result;
+//
+//        try {
+//            CriteriaQuery<RealEstate> criteriaQuery = criteriaBuilder.createQuery(RealEstate.class);
+//
+//            Root<RealEstate> realEstateRoot = criteriaQuery.from(RealEstate.class);
+//
+//            criteriaQuery.select(realEstateRoot);
+//
+//            criteriaQuery.where(criteriaBuilder.equal(realEstateRoot.get("id"), id));
+//
+//            criteriaQuery.from(User.class);
+//
+//            result = session.createQuery(criteriaQuery).uniqueResult();
+//
+//        } catch (RuntimeException ex) {
+//            ex.printStackTrace();
+//        } finally {
+//            session.close();
+//        }
+//
+//        return result;
+//    }
+
     private RealEstate createEntity(Property property) {
         RealEstate realEstate = new RealEstate(
+                property.getDealTypeId(),
                 property.getTitle(),
                 property.getDescription(),
-                UserAccessHelper.getUserId(),
+                property.getOwnerId(),
                 property.getPrice(),
                 property.getAddress(),
                 property.getNearbyLocations(),

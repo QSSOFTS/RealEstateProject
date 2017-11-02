@@ -12,7 +12,7 @@
 
     <property name="connection.password">admin</property>
 
-    <property name="connection.pool_size">1</property>
+    <property name="connection.pool_size">100</property>
 
     <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 
@@ -22,5 +22,6 @@
     <mapping class="com.qssoft.entities.User"/>
     <mapping class="com.qssoft.entities.RealEstate"/>
     <mapping class="com.qssoft.entities.Status"/>
+    <mapping class="com.qssoft.entities.DealType"/>
   </session-factory>
 </hibernate-configuration>

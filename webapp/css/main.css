@@ -56,16 +56,73 @@ html, body {
     margin: 0;
     padding: 0;
 }
-/*#floating-panel {*/
-    /*position: absolute;*/
-    /*top: 10px;*/
-    /*left: 25%;*/
-    /*z-index: 5;*/
-    /*background-color: #fff;*/
-    /*padding: 5px;*/
-    /*border: 1px solid #999;*/
+
+/*RealEstate list*/
+.table-property
+{
+    display: table;
+    margin: auto;
+    width: 80%;
+}
+.table-property-title
+{
+    display: table-caption;
+    text-align: center;
+    font-weight: bold;
+    font-size: larger;
+}
+.table-property-heading
+{
+    background-color: #DDD;
+    display: table-row;
+    font-weight: bold;
+    text-align: center;
+}
+.table-property-row
+{
+    display: table-row;
+}
+.table-property-cell
+{
+    display: table-cell;
+    border: solid;
+    border: 1px solid #999;
+    /*border-width: thin;*/
+    padding-left: 5px;
+    padding-right: 5px;
+}
+/*Manage property page*/
+.table-property-details
+{
+    display: table;
+    margin: auto;
+    width: 80%;
+}
+/*.table-property-title*/
+/*{*/
+    /*display: table-caption;*/
     /*text-align: center;*/
-    /*font-family: 'Roboto','sans-serif';*/
-    /*line-height: 30px;*/
-    /*padding-left: 10px;*/
+    /*font-weight: bold;*/
+    /*font-size: larger;*/
 /*}*/
+/*.table-property-heading*/
+/*{*/
+    /*background-color: #DDD;*/
+    /*display: table-row;*/
+    /*font-weight: bold;*/
+    /*text-align: center;*/
+/*}*/
+.table-property-details-row
+{
+    display: table-row;
+}
+.table-property-details-cell
+{
+    display: table-cell;
+    /*border: solid;*/
+    /*border: 1px solid #999;*/
+    /*border-width: thin;*/
+    padding-left: 5px;
+    padding-right: 5px;
+}
+

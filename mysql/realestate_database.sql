@@ -29,17 +29,51 @@ CREATE TABLE `Users` (
   FOREIGN KEY (`roleId`) REFERENCES `Roles`(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('admin', 'admin', (SELECT id
+INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('admin1', 'admin1', (SELECT id
                                                             FROM `Roles`
                                                             WHERE `name` = 'ROLE_ADMIN'));
 
-INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('owner', 'owner', (SELECT id
+INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('admin2', 'admin2', (SELECT id
+                                                            FROM `Roles`
+                                                            WHERE `name` = 'ROLE_ADMIN'));
+
+INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('admin3', 'admin3', (SELECT id
+                                                            FROM `Roles`
+                                                            WHERE `name` = 'ROLE_ADMIN'));
+
+INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('owner1', 'owner1', (SELECT id
                                                             FROM `Roles`
                                                             WHERE `name` = 'ROLE_OWNER'));
 
-INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('buyer', 'buyer', (SELECT id
+INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('owner2', 'owner2', (SELECT id
+                                                            FROM `Roles`
+                                                            WHERE `name` = 'ROLE_OWNER'));
+
+INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('owner3', 'owner3', (SELECT id
+                                                            FROM `Roles`
+                                                            WHERE `name` = 'ROLE_OWNER'));
+
+INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('buyer1', 'buyer1', (SELECT id
                                                             FROM `Roles`
                                                             WHERE `name` = 'ROLE_BUYER'));
+
+INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('buyer2', 'buyer2', (SELECT id
+                                                            FROM `Roles`
+                                                            WHERE `name` = 'ROLE_BUYER'));
+
+INSERT INTO `Users` (`login`, `password`, `roleId`) VALUES ('buyer3', 'buyer3', (SELECT id
+                                                            FROM `Roles`
+                                                            WHERE `name` = 'ROLE_BUYER'));
+
+DROP TABLE IF EXISTS `DealType`;
+CREATE TABLE `DealType` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(16) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `DealType` (`name`) VALUES ('SALE');
+INSERT INTO `DealType` (`name`) VALUES ('PURCHASE');
 
 DROP TABLE IF EXISTS `RealEstateStatus`;
 CREATE TABLE `RealEstateStatus` (
@@ -55,17 +89,19 @@ INSERT INTO `RealEstateStatus` (`name`) VALUES ('DELETED');
 DROP TABLE IF EXISTS `RealEstates`;
 CREATE TABLE `RealEstates` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `dealTypeId` INT(11) NOT NULL,
   `title` VARCHAR(512) NOT NULL,
-  `description` VARCHAR(1024) NOT NULL,
+  `description` TEXT NOT NULL,
   `ownerId` INT(11) NOT NULL,
   `statusId` INT(11) NOT NULL,
   `adminNote` VARCHAR(512) NULL,
   `address` VARCHAR(512) NOT NULL,
   `price` decimal(6,2) NOT NULL,
-  `nearbyLocations` VARCHAR(512) NULL,
+  `nearbyLocations` VARCHAR(1024) NULL,
   `lat` FLOAT(10, 6) NOT NULL,
   `lng` FLOAT(10, 6) NOT NULL,
   PRIMARY KEY (`id`),
+  FOREIGN KEY (`dealTypeId`) REFERENCES `DealType`(id) ON UPDATE CASCADE,
   FOREIGN KEY (`ownerId`) REFERENCES `Users`(id) ON UPDATE CASCADE,
   FOREIGN KEY (`statusId`) REFERENCES `RealEstateStatus`(id) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -3,6 +3,7 @@ package com.qssoft.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 public class CustomUser extends User {

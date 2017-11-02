@@ -4,8 +4,10 @@ import java.math.BigDecimal;
 
 public class Property
 {
+    private Integer id;
     private String title;
     private String description;
+    private Integer dealTypeId;
     private BigDecimal price;
     private Integer ownerId;
     private String address;
@@ -14,6 +16,9 @@ public class Property
     private Integer statusId;
     private Float latitude;
     private Float longitude;
+    private String statusDescription;
+    private String ownerName;
+    private String dealDescription;
 
     public String getTitle() {
         return title;
@@ -95,13 +100,55 @@ public class Property
         this.statusId = statusId;
     }
 
+    public Integer getDealTypeId() {
+        return dealTypeId;
+    }
+
+    public void setDealTypeId(Integer dealTypeId) {
+        this.dealTypeId = dealTypeId;
+    }
+
+    public String getStatusDescription() {
+        return statusDescription;
+    }
+
+    public void setStatusDescription(String statusDescription) {
+        this.statusDescription = statusDescription;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getDealDescription() {
+        return dealDescription;
+    }
+
+    public void setDealDescription(String dealDescription) {
+        this.dealDescription = dealDescription;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Property() {
     }
 
-    public Property(String title, String description, BigDecimal price, Integer ownerId, String address, String
-            nearbyLocations, String adminNote, Integer statusId, Float latitude, Float longitude) {
+    public Property(Integer id, String title, String description, Integer dealTypeId, BigDecimal price, Integer ownerId, String
+            address, String nearbyLocations, String adminNote, Integer statusId, Float latitude, Float longitude, String dealDescription, String statusDescription, String ownerName) {
+        this.id = id;
         this.title = title;
         this.description = description;
+        this.dealTypeId = dealTypeId;
         this.price = price;
         this.ownerId = ownerId;
         this.address = address;
@@ -110,5 +157,8 @@ public class Property
         this.statusId = statusId;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.dealDescription = dealDescription;
+        this.statusDescription = statusDescription;
+        this.ownerName = ownerName;
     }
 }

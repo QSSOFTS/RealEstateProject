@@ -5,6 +5,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,26 +16,27 @@ import java.math.BigDecimal;
 public class RealEstate implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private int id;
+    private Integer id;
+    private Integer dealTypeId;
     private String title;
     private String description;
-    private int ownerId;
+    private Integer ownerId;
     private BigDecimal price;
     private String address;
     private String nearbyLocations;
     private String adminNote;
-    private int statusId;
+    private Integer statusId;
     private Float latitude;
     private Float longitude;
 
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -56,12 +59,21 @@ public class RealEstate implements Serializable
     }
 
     @Column(name = "ownerId")
-    public int getOwnerId() {
+    public Integer getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
+    }
+
+    @Column(name = "dealTypeId")
+    public Integer getDealTypeId() {
+        return dealTypeId;
+    }
+
+    public void setDealTypeId(Integer dealTypeId) {
+        this.dealTypeId = dealTypeId;
     }
 
     @Column(name = "price")
@@ -101,11 +113,11 @@ public class RealEstate implements Serializable
     }
 
     @Column(name = "statusId")
-    public int getStatusId() {
+    public Integer getStatusId() {
         return statusId;
     }
 
-    public void setStatusId(int statusId) {
+    public void setStatusId(Integer statusId) {
         this.statusId = statusId;
     }
 
@@ -127,8 +139,9 @@ public class RealEstate implements Serializable
         this.longitude = longitude;
     }
 
-    public RealEstate(String title, String description, int ownerId, BigDecimal price, String address, String
-            nearbyLocations, String adminNote, int statusId, Float latitude, Float longitude) {
+    public RealEstate(Integer dealTypeId, String title, String description, Integer ownerId, BigDecimal price, String
+            address, String nearbyLocations, String adminNote, Integer statusId, Float latitude, Float longitude) {
+        this.dealTypeId = dealTypeId;
         this.title = title;
         this.description = description;
         this.ownerId = ownerId;

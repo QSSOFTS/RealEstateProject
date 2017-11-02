@@ -18,14 +18,18 @@
 <script src="${trumbowygJs}"></script>
 
 <div class="topnav" id="myTopnav">
-    <a href="#home">Home</a>
+    <a href="<c:url value="/"/>">Home</a>
 
     <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_OWNER')">
         <a href="<c:url value="/addProperty"/>">Add property</a>
     </sec:authorize>
 
     <sec:authorize access="hasAnyRole('ROLE_OWNER')">
-        <a href="<c:url value="/myMessages"/>">My messages</a>
+        <a href="<c:url value="/showMessages"/>">My messages</a>
+    </sec:authorize>
+
+    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_OWNER', 'ROLE_BUYER')">
+        <a href="<c:url value="/addProperty"/>">Search for property</a>
     </sec:authorize>
 
     <a href="<c:url value="/logout"/>" style="float:right">
@@ -34,7 +38,7 @@
         </sec:authorize>
     </a>
 
-    <a href="#" style="float:right">
+    <a href="#" style="float:right" id="userName">
         <sec:authorize access="isAuthenticated()">
             Welcome | <sec:authentication property="principal.username" />
         </sec:authorize>
