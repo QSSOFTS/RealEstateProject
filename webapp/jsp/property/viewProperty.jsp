@@ -53,10 +53,19 @@
 
         <div class="table-property-details-row">
             <div class="table-property-details-cell">
+                <label for="address">Address:</label>
+            </div>
+            <div class="table-property-details-cell">
+                <br/>
+                <div id="address">${property.address}</div>
+            </div>
+        </div>
+
+        <div class="table-property-details-row">
+            <div class="table-property-details-cell">
                 <label for="nearbyLocations">Important places:</label>
             </div>
             <div class="table-property-details-cell">
-                (input coma-separated list)
                 <br/>
                 <div id="nearbyLocations">${property.nearbyLocations}</div>
             </div>
@@ -72,43 +81,43 @@
         </div>
         <input type="hidden" id="latitude" name="latitude" value="${property.latitude}"/>
         <input type="hidden" id="longitude" name="longitude" value="${property.longitude}"/>
+
+        <br/>
+
+        <div>
+            <div class="table-property-details-row">
+                <div class="table-property-details-cell">
+                    <button type="js_contact_owner" id="js_form_submit" class="btn">Contact owner</button>
+                </div>
+                <div class="table-property-details-cell">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
 
 <script>
     function initMap() {
+        var latVal = $("#latitude").val();
+        var longVal = $("#longitude").val();
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 12,
-            center: {lat: Number($("#latitude").val()), lng: Number($("#longitude").val())}
+            center: {lat: Number(latVal), lng: Number(longVal)}
         });
-//        var geocoder = new google.maps.Geocoder();
-//
-//        document.getElementById('findLocation').addEventListener('click', function() {
-//            geocodeAddress(geocoder, map);
-//        });
-    }
 
-//    function geocodeAddress(geocoder, resultsMap) {
-//        var address = document.getElementById('location').value;
-//        geocoder.geocode({'address': address}, function(results, status) {
-//            if (status === 'OK') {
-//                console.log('Here is the result' +  results[0].geometry.location);
-//                resultsMap.setCenter(results[0].geometry.location);
-//                var marker = new google.maps.Marker({
-//                    map: resultsMap,
-//                    position: results[0].geometry.location
-//                });
-//                $("#propertyForm input[name='latitude']").val(marker.position.lat());
-//                $("#propertyForm input[name='longitude']").val(marker.position.lng());
-//                $("#propertyForm input[name='address']").val($("#propertyForm input[name='location']").val());
-//                $("#propertyForm input[name='description']").val($('#trumbowyg-demo').html());
-//            } else {
-//                console.log('Geocode was not successful for the following reason: ' + status);
-//            }
-//        });
-//    }
+        var Latlng = new google.maps.LatLng(Number(latVal), Number(longVal));
+        var marker = new google.maps.Marker(
+                {
+                    position: Latlng,
+                    title:"0"
+                }
+        );
+        marker.setMap(map);
+    }
 </script>
+
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqdG0IEkNfpnAvbTk_CuRd0Dhl5trYb30&callback=initMap">
 </script>

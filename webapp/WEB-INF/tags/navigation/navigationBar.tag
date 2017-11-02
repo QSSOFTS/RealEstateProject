@@ -29,10 +29,16 @@
     </sec:authorize>
 
     <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_OWNER', 'ROLE_BUYER')">
-        <a href="<c:url value="/addProperty"/>">
+        <div class="search-form-div">
             <input type="text" id="search" name="search" value="${property.title}"/>
+            <select name="searchCondition" id="searchCondition">
+                <option value="dealType">Type</option>
+                <option value="price">Price</option>
+                <option value="city">City</option>
+                <option value="category">Category</option>
+            </select>
             <input id="searchButton" type="button" value="Search">
-        </a>
+        </div>
     </sec:authorize>
 
     <a href="<c:url value="/logout"/>" style="float:right">
