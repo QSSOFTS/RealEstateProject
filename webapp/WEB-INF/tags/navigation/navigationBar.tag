@@ -29,16 +29,16 @@
     </sec:authorize>
 
     <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_OWNER', 'ROLE_BUYER')">
+        <form action="/search" path="/search" method="GET">
         <div class="search-form-div">
-            <input type="text" id="search" name="search" value="${property.title}"/>
+            <input type="text" id="searchQuery" name="searchQuery"/>
             <select name="searchCondition" id="searchCondition">
-                <option value="dealType">Type</option>
-                <option value="price">Price</option>
                 <option value="city">City</option>
-                <option value="category">Category</option>
+                <option value="price">Price</option>
             </select>
-            <input id="searchButton" type="button" value="Search">
+            <input id="searchButton" type="submit" class="btn" value="Search">
         </div>
+        </form>
     </sec:authorize>
 
     <a href="<c:url value="/logout"/>" style="float:right">
@@ -53,3 +53,12 @@
         </sec:authorize>
     </a>
 </div>
+
+<script>
+    $("#js_form_submit").click(function () {
+        $("#propertyForm input[name='address']").val($("#propertyForm input[name='location']").val());
+        $("#propertyForm input[name='description']").val($('#trumbowyg-demo').html());
+        $("#propertyForm").attr('action', '/addProperty');
+        $("#propertyForm").submit();
+    })
+</script>

@@ -19,6 +19,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -83,6 +84,46 @@ public class RealEstateDAO
         return result;
     }
 
+    public List<RealEstate> searchPropertiesByPrice(BigDecimal price) {
+        Session session = SessionFactoryHelper.getSession();
+        List<RealEstate> result = null;
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("from RealEstate where statusId = :statusId and price BETWEEN 0 AND :price");
+            query.setParameter("statusId", 2);
+            query.setParameter("price", price);
+            result = query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.getTransaction().commit();
+                session.close();
+            }
+        }
+        return result;
+    }
+
+    public List<RealEstate> searchPropertiesByCity(String city) {
+        Session session = SessionFactoryHelper.getSession();
+        List<RealEstate> result = null;
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("from RealEstate where statusId = :statusId and address LIKE :city");
+            query.setParameter("statusId", 2);
+            query.setParameter("city", "%" +  city + "%");
+            result = query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.getTransaction().commit();
+                session.close();
+            }
+        }
+        return result;
+    }
+
     public void changePropertyStatus(Integer id, Integer statusId) {
         Session session = SessionFactoryHelper.getSession();
         try {
@@ -100,7 +141,6 @@ public class RealEstateDAO
             }
         }
     }
-
 
     public List<RealEstate> getPropertiesListByOwner(Integer ownerId) {
         Session session = SessionFactoryHelper.getSession();
@@ -157,6 +197,7 @@ public class RealEstateDAO
 
     private RealEstate createEntity(Property property) {
         RealEstate realEstate = new RealEstate(
+                property.getId(),
                 property.getDealTypeId(),
                 property.getTitle(),
                 property.getDescription(),

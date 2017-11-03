@@ -139,8 +139,9 @@ public class RealEstate implements Serializable
         this.longitude = longitude;
     }
 
-    public RealEstate(Integer dealTypeId, String title, String description, Integer ownerId, BigDecimal price, String
+    public RealEstate(Integer id, Integer dealTypeId, String title, String description, Integer ownerId, BigDecimal price, String
             address, String nearbyLocations, String adminNote, Integer statusId, Float latitude, Float longitude) {
+        this.id = id;
         this.dealTypeId = dealTypeId;
         this.title = title;
         this.description = description;

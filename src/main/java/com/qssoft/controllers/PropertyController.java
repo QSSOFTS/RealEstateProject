@@ -1,8 +1,10 @@
 package com.qssoft.controllers;
 
 import com.qssoft.dto.Property;
+import com.qssoft.entities.Message;
 import com.qssoft.security.UserAccessHelper;
 import com.qssoft.services.DealTypeService;
+import com.qssoft.services.MessageService;
 import com.qssoft.services.PropertyDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -38,6 +41,9 @@ public class PropertyController
     private PropertyDetailsService propertyDetailsService;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     DealTypeService dealTypeService;
 
     @RequestMapping(value="/addProperty", method = RequestMethod.GET)
@@ -49,8 +55,16 @@ public class PropertyController
 
     @RequestMapping(value="/updateProperty/{id}", method = RequestMethod.GET)
     public String addPropertyDetails (@PathVariable("id") final String id, Model model) {
-
-        model.addAttribute("property", new Property());
+        Property property;
+        if(id == null) {
+            property = new Property();
+        } else {
+            property = propertyDetailsService.getPropertyById(id);
+            List<Message> messagesList = messageService.getMessagesByPropertyId(Integer.parseInt(id));
+            model.addAttribute("messages", messagesList);
+        }
+        model.addAttribute("dealTypes", dealTypeService.getAllDealTypes());
+        model.addAttribute("property", property);
         return "property/updateProperty";
     }
 
@@ -82,6 +96,8 @@ public class PropertyController
     public void addProperty (@ModelAttribute Property property, HttpServletResponse response) throws IOException {
         if(property.getOwnerId() == null) {
             property.setOwnerId(UserAccessHelper.getUserId());
+        }
+        if(property.getStatusId() == null) {
             property.setStatusId(propertyStatusMap.get("NEW"));
         }
         propertyDetailsService.createOrUpdateProperty(property);
@@ -89,15 +105,18 @@ public class PropertyController
         response.sendRedirect("/");
     }
 
-//    list of properties according to user id
+    @ResponseBody
+    @RequestMapping(value = "/sendMessage/{propertyId}/{ownerId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> sendMessage(@PathVariable("propertyId") final String propertyId, @PathVariable("ownerId") final String ownerId, @RequestParam("message") final String message)
+    {
+        messageService.createMessage(UserAccessHelper.getUserId(), Integer.parseInt(ownerId), message, Integer.parseInt(propertyId));
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
 
 //    search
-
-//    get property by id
 
 //    list of hot deals (based on search)
 
-//    search
 }
 
 

@@ -69,6 +69,9 @@
               <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
                 <button class="btn js_approve_property_btn" style="background: greenyellow">Approve</button>
               </sec:authorize>
+              <sec:authorize access="hasAnyRole('ROLE_OWNER')">
+                <button class="btn js_update_property_btn" onclick="location.href='/updateProperty/' + ${property.id};" style="background: greenyellow">Edit</button>
+              </sec:authorize>
             </div>
           </sec:authorize>
           <sec:authorize access="hasAnyRole('ROLE_BUYER')">

@@ -23,5 +23,7 @@
     <mapping class="com.qssoft.entities.RealEstate"/>
     <mapping class="com.qssoft.entities.Status"/>
     <mapping class="com.qssoft.entities.DealType"/>
+    <mapping class="com.qssoft.entities.HotDeal"/>
+    <mapping class="com.qssoft.entities.Message"/>
   </session-factory>
 </hibernate-configuration>

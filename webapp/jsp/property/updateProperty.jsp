@@ -15,7 +15,6 @@
     <h3>Manage your property:</h3>
 
     <form id="propertyForm" name="f" th:action="@{/addProperty}" method="post">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <div class="table-property-details">
             <div class="table-property-details-row">
                 <div class="table-property-details-cell">
@@ -24,7 +23,7 @@
                 <div class="table-property-details-cell">
                     <select name="dealTypeId" id="dealTypeId">
                         <c:forEach items="${dealTypes}" var="dealType">
-                            <option value="${dealType.id}">${dealType.name}</option>
+                            <option value="${dealType.id}" ${dealType.id == property.dealTypeId ? 'selected' : ''}>${dealType.name}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -44,7 +43,7 @@
                     <label for="trumbowyg-demo">Description:</label>
                 </div>
                 <div class="table-property-details-cell">
-                    <div id="trumbowyg-demo" class="trumbowyg-div" style="width: 50%s"></div>
+                    <div id="trumbowyg-demo" class="trumbowyg-div" style="width: 50%">${property.description}</div>
                 </div>
             </div>
 
@@ -73,15 +72,17 @@
                     <label for="location">Location:</label>
                 </div>
                 <div class="table-property-details-cell">
-                    <input type="textbox" id="location" name="location" value=""/>
+                    <input type="textbox" id="location" name="location" value="${property.address}"/>
                     <input id="findLocation" type="button" value="Show on map">
                 </div>
             </div>
-
-            <input type="hidden" id="address" name="address"/>
+            <input type="hidden" id="id" name="id" value="${property.id}"/>
+            <input type="hidden" id="address" name="address" value="${property.address}"/>
             <input type="hidden" id="description" name="description"/>
-            <input type="hidden" id="latitude" name="latitude" value="${latitude}"/>
-            <input type="hidden" id="longitude" name="longitude" value="${longitude}"/>
+            <input type="hidden" id="latitude" name="latitude" value="${property.latitude}"/>
+            <input type="hidden" id="longitude" name="longitude" value="${property.longitude}"/>
+            <input type="hidden" id="ownerId" name="ownerId" value="${property.ownerId}"/>
+            <input type="hidden" id="statusId" name="statusId" value="${property.statusId}"/>
         </div>
     </form>
 
@@ -97,7 +98,7 @@
         <div class="table-property-details-row">
             <div class="table-property-details-cell">
                 <div class="form-actions">
-                    <button type="submit" id="js_form_submit" class="btn">Submit</button>
+                    <button type="submit" id="js_form_submit" class="btn">Save</button>
                 </div>
             </div>
             <div class="table-property-details-cell">
@@ -111,11 +112,29 @@
 
 <script>
     function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 12,
-            center: {lat: -34.397, lng: 150.644}
-        });
         var geocoder = new google.maps.Geocoder();
+
+        var latVal = $("#latitude").val();
+        var longVal = $("#longitude").val();
+        if(longVal != null && latVal != null) {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: {lat: Number(latVal), lng: Number(longVal)}
+            });
+            var Latlng = new google.maps.LatLng(Number(latVal), Number(longVal));
+            var marker = new google.maps.Marker(
+                    {
+                        position: Latlng,
+                        title:"0"
+                    }
+            );
+            marker.setMap(map);
+        } else {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: {lat: -34.397, lng: 150.644}
+            });
+        }
 
         document.getElementById('findLocation').addEventListener('click', function() {
             geocodeAddress(geocoder, map);
@@ -137,8 +156,6 @@
                 });
                 $("#propertyForm input[name='latitude']").val(marker.position.lat());
                 $("#propertyForm input[name='longitude']").val(marker.position.lng());
-                $("#propertyForm input[name='address']").val($("#propertyForm input[name='location']").val());
-                $("#propertyForm input[name='description']").val($('#trumbowyg-demo').html());
             } else {
                 console.log('Geocode was not successful for the following reason: ' + status);
             }
@@ -151,7 +168,10 @@
 
 <script>
     $(function() {$('#trumbowyg-demo').trumbowyg();});
-    $("#js_form_submit").click(function (event) {
+    $("#js_form_submit").click(function () {
+        $("#propertyForm input[name='address']").val($("#propertyForm input[name='location']").val());
+        $("#propertyForm input[name='description']").val($('#trumbowyg-demo').html());
+        $("#propertyForm").attr('action', '/addProperty');
         $("#propertyForm").submit();
     })
 </script>

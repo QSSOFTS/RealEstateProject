@@ -79,21 +79,10 @@
                 <div id="map"></div>
             </div>
         </div>
+
         <input type="hidden" id="latitude" name="latitude" value="${property.latitude}"/>
         <input type="hidden" id="longitude" name="longitude" value="${property.longitude}"/>
-
         <br/>
-
-        <div>
-            <div class="table-property-details-row">
-                <div class="table-property-details-cell">
-                    <button type="js_contact_owner" id="js_form_submit" class="btn">Contact owner</button>
-                </div>
-                <div class="table-property-details-cell">
-                    &nbsp;
-                </div>
-            </div>
-        </div>
     </div>
 </body>
 </html>
@@ -101,6 +90,7 @@
 <script>
     function initMap() {
         var latVal = $("#latitude").val();
+        console.log(latVal);
         var longVal = $("#longitude").val();
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 12,
@@ -118,13 +108,31 @@
     }
 </script>
 
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqdG0IEkNfpnAvbTk_CuRd0Dhl5trYb30&callback=initMap">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqdG0IEkNfpnAvbTk_CuRd0Dhl5trYb30&callback=initMap">
 </script>
 
-<script>
-    $(function() {$('#trumbowyg-demo').trumbowyg();});
-    $("#js_form_submit").click(function (event) {
-        $("#propertyForm").submit();
-    })
-</script>
+<%--<script>--%>
+    <%--$("#js_contact_owner").click(function () {--%>
+        <%--$("#send-message-div").css("visibility:block");--%>
+        <%--$('#message_to_owner').val('Put your message here');--%>
+    <%--})--%>
+
+    <%--$("#js_send_message_to_owner").click(function () {--%>
+        <%--$.ajax({--%>
+            <%--type: 'POST',--%>
+            <%--url: '/sendMessage/' + index,--%>
+            <%--contentType: "application/json",--%>
+            <%--cache: false,--%>
+            <%--crossDomain: false,--%>
+            <%--success: function(result){--%>
+                <%--location.reload();--%>
+            <%--},--%>
+            <%--error: function (result) {--%>
+                <%--location.reload();--%>
+            <%--},--%>
+            <%--done: function (result) {--%>
+                <%--console.log("here");--%>
+            <%--}--%>
+        <%--});--%>
+    <%--})--%>
+<%--</script>--%>

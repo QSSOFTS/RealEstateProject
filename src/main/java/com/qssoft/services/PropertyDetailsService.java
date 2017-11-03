@@ -6,6 +6,7 @@ import com.qssoft.entities.RealEstate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -47,6 +48,16 @@ public class PropertyDetailsService
 
     public void approveProperty(Integer propertyId) {
         realEstateDAO.changePropertyStatus(propertyId, 2);
+    }
+
+    public List<Property> searchByPrice(BigDecimal price) {
+        List<RealEstate> realEstates = realEstateDAO.searchPropertiesByPrice(price);
+        return realEstateToPropertyHelperService.entityToPropertyList(realEstates);
+    }
+
+    public List<Property> searchByCity(String city) {
+        List<RealEstate> realEstates = realEstateDAO.searchPropertiesByCity(city);
+        return realEstateToPropertyHelperService.entityToPropertyList(realEstates);
     }
 
 }

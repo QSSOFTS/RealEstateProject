@@ -113,9 +113,20 @@ CREATE TABLE `Messages` (
   `recipientId` INT(11) NOT NULL,
   `message` VARCHAR(512) NOT NULL,
   `statusId` INT(11) NOT NULL,
+  `propertyId` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`recipientId`) REFERENCES `Users`(id),
+  FOREIGN KEY (`propertyId`) REFERENCES `RealEstates`(id),
   FOREIGN KEY (`senderId`) REFERENCES `Users`(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `HotDeals`;
+CREATE TABLE `HotDeals` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `propertyId` INT(11) NOT NULL,
+  `hits` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`propertyId`) REFERENCES `RealEstates`(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET foreign_key_checks = 1;
