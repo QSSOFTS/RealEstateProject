@@ -96,7 +96,7 @@ CREATE TABLE `RealEstates` (
   `statusId` INT(11) NOT NULL,
   `adminNote` VARCHAR(512) NULL,
   `address` VARCHAR(512) NOT NULL,
-  `price` decimal(6,2) NOT NULL,
+  `price` decimal(18,2) NOT NULL,
   `nearbyLocations` VARCHAR(1024) NULL,
   `lat` FLOAT(10, 6) NOT NULL,
   `lng` FLOAT(10, 6) NOT NULL,

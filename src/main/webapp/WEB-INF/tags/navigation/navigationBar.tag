@@ -24,9 +24,9 @@
         <a href="<c:url value="/addProperty"/>">Add property</a>
     </sec:authorize>
 
-    <sec:authorize access="hasAnyRole('ROLE_OWNER')">
-        <a href="<c:url value="/showMessages"/>">My messages</a>
-    </sec:authorize>
+    <%--<sec:authorize access="hasAnyRole('ROLE_OWNER')">--%>
+        <%--<a href="<c:url value="/showMessages"/>">My messages</a>--%>
+    <%--</sec:authorize>--%>
 
     <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_OWNER', 'ROLE_BUYER')">
         <form action="/search" path="/search" method="GET">
@@ -41,13 +41,13 @@
         </form>
     </sec:authorize>
 
-    <a href="<c:url value="/logout"/>" style="float:right">
+    <a href="<c:url value="/logout"/>" class="right_corner_item">
         <sec:authorize access="isAuthenticated()">
             Logout
         </sec:authorize>
     </a>
 
-    <a href="#" style="float:right" id="userName">
+    <a href="#" class="right_corner_item" id="userName">
         <sec:authorize access="isAuthenticated()">
             Welcome | <sec:authentication property="principal.username" />
         </sec:authorize>
