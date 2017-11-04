@@ -168,7 +168,10 @@
 
 <script>
     $(function() {$('#trumbowyg-demo').trumbowyg();});
-    $("#js_form_submit").click(function () {
+    $("#js_form_submit").click(function (evt) {
+        if ($("#propertyForm input[name='price']").val() == "") {
+            $("#propertyForm input[name='price']").val(0);
+        }
         $("#propertyForm input[name='address']").val($("#propertyForm input[name='location']").val());
         $("#propertyForm input[name='description']").val($('#trumbowyg-demo').html());
         $("#propertyForm").attr('action', '/addProperty');

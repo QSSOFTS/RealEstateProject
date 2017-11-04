@@ -8,13 +8,11 @@
 
 <spring:url value="/js/jquery-3.2.1.min.js" var="jqueryJs" />
 <spring:url value="/js/trumbowyg.min.js" var="trumbowygJs" />
-<spring:url value="/js/main.js" var="mainJs" />
 
 <link href="${mainCss}" rel="stylesheet" />
 <link href="${trumbowygCss}" rel="stylesheet" />
 
 <script src="${jqueryJs}"></script>
-<script src="${mainJs}"></script>
 <script src="${trumbowygJs}"></script>
 
 <div class="topnav" id="myTopnav">
