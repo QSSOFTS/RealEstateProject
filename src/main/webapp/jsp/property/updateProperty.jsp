@@ -138,9 +138,6 @@
 
         document.getElementById('findLocation').addEventListener('click', function() {
             geocodeAddress(geocoder, map);
-//            var popup = window.open("", "popupWindow", "width=600, height=400, scrollbars=yes");
-//            $(popup.document.body).html($("#hiddenMapDiv").html());
-//            popup.addEventListener('load', initMap, true);
         });
     }
 

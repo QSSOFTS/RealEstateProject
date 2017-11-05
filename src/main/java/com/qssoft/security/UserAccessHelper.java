@@ -41,4 +41,8 @@ public class UserAccessHelper
     public static boolean isBuyer() {
         return checkUserRole("ROLE_BUYER");
     }
+
+    public static boolean isAnonymous() {
+        return checkUserRole("ROLE_ANONYMOUS");
+    }
 }

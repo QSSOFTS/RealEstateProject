@@ -39,17 +39,23 @@
         </form>
     </sec:authorize>
 
-    <a href="<c:url value="/logout"/>" class="right_corner_item">
-        <sec:authorize access="isAuthenticated()">
-            Logout
-        </sec:authorize>
-    </a>
+    <sec:authorize access="isAuthenticated()">
+        <a href="<c:url value="/logout"/>" class="right_corner_item">
+                Logout
+        </a>
+    </sec:authorize>
 
+    <sec:authorize access="isAnonymous()">
+        <a href="<c:url value="/login"/>" style="float: right">
+              Login
+        </a>
+    </sec:authorize>
+
+    <sec:authorize access="isAuthenticated()">
     <a href="#" class="right_corner_item" id="userName">
-        <sec:authorize access="isAuthenticated()">
             Welcome | <sec:authentication property="principal.username" />
-        </sec:authorize>
     </a>
+    </sec:authorize>
 </div>
 
 <script>

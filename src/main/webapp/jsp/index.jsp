@@ -77,7 +77,6 @@
           <sec:authorize access="hasAnyRole('ROLE_BUYER')">
             <div class="table-property-cell">
               <input type="button" onclick="location.href='/viewProperty/' + ${property.id};" style="background: greenyellow" value="View" />
-              <%--<button class="btn js_view_property_btn" style="background: greenyellow">View</button>--%>
             </div>
           </sec:authorize>
         </div>
