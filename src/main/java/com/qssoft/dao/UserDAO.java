@@ -53,27 +53,35 @@ public class UserDAO
         return user;
     }
 
+    public void createUser(final User user)
+    {
+        Session session = SessionFactoryHelper.getSession();
+        session.beginTransaction();
+        session.save(user);
+        session.getTransaction().commit();
+    }
+
 
     /*
-    public User getUserByLogin(final String login)
+    public UserDTO getUserByLogin(final String login)
     {
         Session session = SessionFactoryHelper.getSession();
         
-        User user = null;
+        UserDTO user = null;
         try {
             Transaction transaction = session.beginTransaction();
 
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 
-            CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+            CriteriaQuery<UserDTO> criteriaQuery = criteriaBuilder.createQuery(UserDTO.class);
 
-            Root<User> userRoot = criteriaQuery.from(User.class);
+            Root<UserDTO> userRoot = criteriaQuery.from(UserDTO.class);
 
             criteriaQuery.select(userRoot);
 
             criteriaQuery.where(criteriaBuilder.equal(userRoot.get("login"), login));
 
-            criteriaQuery.from(User.class);
+            criteriaQuery.from(UserDTO.class);
 
             user = session.createQuery(criteriaQuery).uniqueResult();
 
@@ -90,16 +98,16 @@ public class UserDAO
     }
     */
 
-//    public User getUserByLogin(final String login)
+//    public UserDTO getUserByLogin(final String login)
 //    {
-//        User user = null;
+//        UserDTO user = null;
 //        Session session = SessionFactoryHelper.getSession();
 //        try {
 //            Transaction trns = session.beginTransaction();
-//            String queryString = "from User where id = :id";
+//            String queryString = "from UserDTO where id = :id";
 //            Query query = session.createQuery(queryString);
 //            query.("id", userid);
-//            user = (User) query.uniqueResult();
+//            user = (UserDTO) query.uniqueResult();
 //        } catch (RuntimeException e) {
 //            e.printStackTrace();
 //        } finally {

@@ -8,23 +8,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 <head>
     <title tiles:fragment="title">Login</title>
+    <spring:url value="/css/main.css" var="mainCss" />
+    <link href="${mainCss}" rel="stylesheet" />
 </head>
 <body>
 <div tiles:fragment="content">
     <form name="f" th:action="@{/login}" method="post">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        <div style="width: 250px;
-        border: solid 1px;
-        text-align: center;
-        padding: 20px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-        width: 250px;
-        height: 120px;">
+        <div class="login-div-format">
             <legend>Please Login</legend>
             <c:if test="${param.error ne null}">
                 <div style="color: red;">
@@ -57,6 +47,12 @@
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn">Log in</button>
+            </div>
+            <br/>
+            <div style="float:right">
+                <a href="<c:url value="/register"/>" class="right_corner_item">
+                    Become a user
+                </a>
             </div>
         </div>
     </form>

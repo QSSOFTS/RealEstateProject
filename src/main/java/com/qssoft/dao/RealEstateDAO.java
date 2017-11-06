@@ -182,7 +182,7 @@ public class RealEstateDAO
 //
 //            criteriaQuery.where(criteriaBuilder.equal(realEstateRoot.get("id"), id));
 //
-//            criteriaQuery.from(User.class);
+//            criteriaQuery.from(UserDTO.class);
 //
 //            result = session.createQuery(criteriaQuery).uniqueResult();
 //
