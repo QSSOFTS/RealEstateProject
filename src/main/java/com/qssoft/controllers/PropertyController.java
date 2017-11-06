@@ -113,8 +113,6 @@ public class PropertyController
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
-//    search
-
 //    list of hot deals (based on search)
 
 }

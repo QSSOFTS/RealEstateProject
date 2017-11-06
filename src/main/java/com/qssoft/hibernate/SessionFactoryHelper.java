@@ -21,7 +21,7 @@ public class SessionFactoryHelper
             Metadata metaData = new MetadataSources(standardRegistry).getMetadataBuilder().build();
             sessionFactory = metaData.getSessionFactoryBuilder().build();
         } catch (Throwable th) {
-            System.err.println("Enitial SessionFactory creation failed" + th);
+            System.err.println("Initial SessionFactory creation failed" + th);
             throw new ExceptionInInitializerError(th);
         }
     }
@@ -31,8 +31,4 @@ public class SessionFactoryHelper
     public static Session getSession() {
         return sessionFactory.getCurrentSession();
     }
-//    public static EntityManager getEntityManager() {
-//        EntityManagerFactory entityManagerFacstory = getSession().getEntityManagerFactory();
-//        return entityManagerFactory.createEntityManager();
-//    }
 }
