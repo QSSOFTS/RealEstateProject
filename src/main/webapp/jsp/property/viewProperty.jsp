@@ -12,8 +12,21 @@
     <meta charset="utf-8">
 </head>
 <body>
-<h3>View property:</h3>
+<%--<div id="hiddenSendMessageDiv" style="display: none;">--%>
+    <%--<div>--%>
+        <%--<div>--%>
+            <%--<p>Comment:</p>--%>
+            <%--<p>--%>
+                <%--<textarea value="" name="Comment" cols="55" rows="5" id="Comment"/>--%>
+            <%--</p>--%>
+            <%--<p>--%>
+                <%--<input type="button"  style="background: gray" value="Send" />--%>
+            <%--</p>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+<%--</div>--%>
 
+<h3>View property:</h3>
     <div class="table-property-details">
         <div class="table-property-details-row">
             <div class="table-property-details-cell">
@@ -76,40 +89,73 @@
                 <label for="map">Location:</label>
             </div>
             <div class="table-property-details-cell">
-                <div id="map"></div>
+                <div id="map" style="margin-bottom: 20px"></div>
             </div>
         </div>
 
+        <sec:authorize access="isAuthenticated()">
+            <div class="table-property-details-row">
+                <div class="table-property-details-cell">
+                    Message to owner
+                </div>
+                <div class="table-property-details-cell">
+                    <div style="padding-top: 10px">
+                        <input type="text" id="messageToCustomer" name="messageToCustomer" style="width:500px"/>
+                        <input type="button" id="js-send-message-btn" style="background: gray" value="Send" />
+                    </div>
+                </div>
+            </div>
+        </sec:authorize>
+
         <input type="hidden" id="latitude" name="latitude" value="${property.latitude}"/>
         <input type="hidden" id="longitude" name="longitude" value="${property.longitude}"/>
-        <br/>
+        <input type="hidden" id="propertyId" value="${property.id}"/>
+        <input type="hidden" id="ownerId" value="${property.ownerId}"/>
     </div>
 
-    <input type="button" id="openSendMessageDialogBtn" style="background: gray" value="Contact Owner" />
+    <%--<sec:authorize access="isAuthenticated()">--%>
+        <%--<div class="table-property-details-row">--%>
+            <%--<div class="table-property-details-cell">--%>
+                <%--<label for="message">Message to owner:</label>--%>
+            <%--</div>--%>
+            <%--<div class="table-property-details-cell">--%>
+                <%--<textarea value="" name="Comment" cols="55" rows="5" id="Comment"/>--%>
+                <%--<button class="btn js-open-send-message-dlg" style="background: darkgray ">Contact owner</button>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</sec:authorize>--%>
 
-    <br/>
 </body>
-
-<div id="hiddenSendMessgeDiv" style="visibility: hidden">
-    <div>
-        <div>
-            <p>Comment:</p>
-            <p>
-                <textarea value="" name="Comment" cols="55" rows="5" id="Comment"/>
-            </p>
-            <p>
-                <%--<input type="button" onclick="location.href='/viewProperty/' + ${property.id};" style="background: gray" value="Contact Owner" />--%>
-                <input type="button"  style="background: gray" value="Send" />
-            </p>
-        </div>
-    </div>
-</div>
 </html>
 
-<script>
+<script type="application/javascript">
+    $(document).ready(function() {
+        var ownerId = $("#ownerId").val();
+        var propertyId = $("#propertyId").val();
+        var message = $("#messageToCustomer").val();
+        $("#js-send-message-btn").on('click', function(event) {
+            $.ajax({
+                type: 'POST',
+                url: '/' + propertyId + '/' + ownerId + '/postMessage',
+                data: '{"message" :' + message + '}',
+                contentType: "application/json",
+                cache: false,
+                crossDomain: false,
+                success: function(result){
+                    alert("Your message has been sent");
+                },
+                error: function (result) {
+                    console.log(result);
+//                    location.reload();
+                },
+            });
+        });
+    })
+</script>
+
+<script type="application/javascript">
     function initMap() {
         var latVal = $("#latitude").val();
-        console.log(latVal);
         var longVal = $("#longitude").val();
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 12,
@@ -128,49 +174,4 @@
 </script>
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqdG0IEkNfpnAvbTk_CuRd0Dhl5trYb30&callback=initMap">
-
-<%--</script>--%>
-
-//        $(".js_delete_property_btn").on('click', function(event) {
-//            var index = $(event.target).closest('.table-property-row').find('.js_property_id').val();
-//            $.ajax({
-//                type: 'POST',
-//                url: '/deleteProperty/' + index,
-//                contentType: "application/json",
-//                cache: false,
-//                crossDomain: false,
-//                success: function(result){
-//                    location.reload();
-//                },
-//                error: function (result) {
-//                    location.reload();
-//                },
-//            });
-//        });
-<%--</script>--%>
-
-<script>
-    $("#openSendMessageDialogBtn").click(function () {
-        var popup = window.open("", "popupWindow", "width=600, height=400, scrollbars=yes");
-        $(popup.document.body).html($("#hiddenSendMessgeDiv").html());
-    })
 </script>
-    <%--$("#js_send_message_to_owner").click(function () {--%>
-        <%--$.ajax({--%>
-            <%--type: 'POST',--%>
-            <%--url: '/sendMessage/' + index,--%>
-            <%--contentType: "application/json",--%>
-            <%--cache: false,--%>
-            <%--crossDomain: false,--%>
-            <%--success: function(result){--%>
-                <%--location.reload();--%>
-            <%--},--%>
-            <%--error: function (result) {--%>
-                <%--location.reload();--%>
-            <%--},--%>
-            <%--done: function (result) {--%>
-                <%--console.log("here");--%>
-            <%--}--%>
-        <%--});--%>
-    <%--})--%>
-<%--</script>--%>

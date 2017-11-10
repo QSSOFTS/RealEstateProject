@@ -106,7 +106,7 @@ public class PropertyController
     }
 
     @ResponseBody
-    @RequestMapping(value = "/sendMessage/{propertyId}/{ownerId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="{propertyId}/{ownerId}/postMessage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> sendMessage(@PathVariable("propertyId") final String propertyId, @PathVariable("ownerId") final String ownerId, @RequestParam("message") final String message)
     {
         messageService.createMessage(UserAccessHelper.getUserId(), Integer.parseInt(ownerId), message, Integer.parseInt(propertyId));

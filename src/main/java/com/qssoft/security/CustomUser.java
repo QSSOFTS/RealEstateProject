@@ -22,4 +22,11 @@ public class CustomUser extends User {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         setId(id);
     }
+
+    @Override
+    public String toString() {
+        return "CustomUser{" +
+                "id=" + id +
+                '}';
+    }
 }

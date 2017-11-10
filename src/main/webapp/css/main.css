@@ -117,6 +117,8 @@ html, body {
     display: table-cell;
     padding-left: 5px;
     padding-right: 5px;
+    vertical-align: top;
+    border-bottom: 0.5pt solid gray;
 }
 
 .login-div-format
@@ -132,7 +134,7 @@ html, body {
     right: 0;
     margin: auto;
     width: 250px;
-    height: 120px;
+    height: 140px;
 }
 
 .register-div-format

@@ -29,10 +29,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         auth.authenticationProvider(authenticationProvider());
     }
 
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth
+//                .inMemoryAuthentication()
+//                .withUser("user").password("password").roles("OWNER");
+//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
+
         http.authorizeRequests()
-                .antMatchers("/resources/**", "/", "/js/*", "/css/*", "/register").permitAll()
+                .antMatchers("/", "/js/**", "/css/**").permitAll()
+                .antMatchers("/addProperty").hasAnyRole("ADMIN", "OWNER")
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -41,7 +51,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .and()
             .logout()
                 .permitAll();
-        http.csrf().disable();
     }
 
     @Bean
@@ -51,11 +60,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         return authProvider;
     }
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+//    @Bean
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
 
     @Bean
     public UserDetailsService userDetailsServiceBean() throws Exception {

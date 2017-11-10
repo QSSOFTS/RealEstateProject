@@ -23,7 +23,6 @@ public class HomePageController
     @Autowired
     private PropertyDetailsService propertyDetailsService;
 
-    @Secured("ROLE_ANONYMOUS")
     @RequestMapping(method=RequestMethod.GET)
     public String index(Model model)
     {

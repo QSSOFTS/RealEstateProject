@@ -37,11 +37,11 @@
               <p>Status</p>
             </div>
           </sec:authorize>
-          <sec:authorize access="hasAnyRole('ROLE_OWNER', 'ROLE_ADMIN', 'ROLE_BUYER')">
+          <%--<sec:authorize access="hasAnyRole('ROLE_OWNER', 'ROLE_ADMIN', 'ROLE_BUYER')">--%>
             <div class="table-property-cell">
               <p>Action</p>
             </div>
-          </sec:authorize>
+          <%--</sec:authorize>--%>
         </div>
         <c:forEach items="${propertiesList}" var="property">
         <div class="table-property-row">
@@ -63,8 +63,8 @@
               <p>${property.statusDescription}</p>
             </div>
           </sec:authorize>
+          <div class="table-property-cell">
           <sec:authorize access="hasAnyRole('ROLE_OWNER', 'ROLE_ADMIN')">
-            <div class="table-property-cell">
               <button class="btn js_delete_property_btn" style="background: orangered">Delete</button>
               <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
                 <button class="btn js_approve_property_btn" style="background: greenyellow">Approve</button>
@@ -72,13 +72,9 @@
               <sec:authorize access="hasAnyRole('ROLE_OWNER')">
                 <button class="btn js_update_property_btn" onclick="location.href='/updateProperty/' + ${property.id};" style="background: greenyellow">Edit</button>
               </sec:authorize>
-            </div>
           </sec:authorize>
-          <sec:authorize access="hasAnyRole('ROLE_BUYER')">
-            <div class="table-property-cell">
-              <input type="button" onclick="location.href='/viewProperty/' + ${property.id};" style="background: greenyellow" value="View" />
-            </div>
-          </sec:authorize>
+          <input type="button" onclick="location.href='/viewProperty/' + ${property.id};" style="background: greenyellow" value="View" />
+          </div>
         </div>
         </c:forEach>
       </div>

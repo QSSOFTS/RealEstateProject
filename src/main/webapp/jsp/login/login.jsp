@@ -14,6 +14,7 @@
 <body>
 <div tiles:fragment="content">
     <form name="f" th:action="@{/login}" method="post">
+        <%--<form name='f' action="<c:url value="j_spring_security_check" />" method='POST'>--%>
         <div class="login-div-format">
             <legend>Please Login</legend>
             <c:if test="${param.error ne null}">
@@ -51,7 +52,7 @@
             <br/>
             <div style="float:right">
                 <a href="<c:url value="/register"/>" class="right_corner_item">
-                    Become a user
+                    Become a customer
                 </a>
             </div>
         </div>

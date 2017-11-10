@@ -26,6 +26,11 @@ public class LoginController
         return "login/login";
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/login")
+    public String loginProcessing() {
+        return "login/login";
+    }
+
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String doLogout (HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
