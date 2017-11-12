@@ -69,7 +69,7 @@ public class MessagesController
             messageDTO.setMessage(message.getMessage());
             messageDTO.setPropertyId(String.valueOf(message.getPropertyId()));
             UserDetails userDetails = userDetailsService.loadUserById(message.getSenderId());
-            messageDTO.setSenderName(userDetails.getName());
+            messageDTO.setSenderName(userDetails.getUsername());
             Property property = propertyDetailsService.getPropertyById(String.valueOf(message.getPropertyId()));
             messageDTO.setAdTopic(property.getTitle());
             messageDTO.setStatus(String.valueOf(message.getStatusId()));
