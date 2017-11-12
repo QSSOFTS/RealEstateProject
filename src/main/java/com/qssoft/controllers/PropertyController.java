@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
@@ -104,16 +103,6 @@ public class PropertyController
 
         response.sendRedirect("/");
     }
-
-    @ResponseBody
-    @RequestMapping(value="{propertyId}/{ownerId}/postMessage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> sendMessage(@PathVariable("propertyId") final String propertyId, @PathVariable("ownerId") final String ownerId, @RequestParam("message") final String message)
-    {
-        messageService.createMessage(UserAccessHelper.getUserId(), Integer.parseInt(ownerId), message, Integer.parseInt(propertyId));
-        return new ResponseEntity<>("success", HttpStatus.OK);
-    }
-
-//    list of hot deals (based on search)
 
 }
 

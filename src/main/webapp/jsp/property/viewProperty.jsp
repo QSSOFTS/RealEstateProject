@@ -5,26 +5,13 @@
 
 <%@ taglib prefix="navigation" tagdir="/WEB-INF/tags/navigation"%>
 
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<html>
 <head>
     <navigation:navigationBar/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 </head>
 <body>
-<%--<div id="hiddenSendMessageDiv" style="display: none;">--%>
-    <%--<div>--%>
-        <%--<div>--%>
-            <%--<p>Comment:</p>--%>
-            <%--<p>--%>
-                <%--<textarea value="" name="Comment" cols="55" rows="5" id="Comment"/>--%>
-            <%--</p>--%>
-            <%--<p>--%>
-                <%--<input type="button"  style="background: gray" value="Send" />--%>
-            <%--</p>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-<%--</div>--%>
 
 <h3>View property:</h3>
     <div class="table-property-details">
@@ -100,7 +87,7 @@
                 </div>
                 <div class="table-property-details-cell">
                     <div style="padding-top: 10px">
-                        <input type="text" id="messageToCustomer" name="messageToCustomer" style="width:500px"/>
+                        <input type="text" id="messagecontent" value="" style="width:500px"/>
                         <input type="button" id="js-send-message-btn" style="background: gray" value="Send" />
                     </div>
                 </div>
@@ -112,41 +99,35 @@
         <input type="hidden" id="propertyId" value="${property.id}"/>
         <input type="hidden" id="ownerId" value="${property.ownerId}"/>
     </div>
-
-    <%--<sec:authorize access="isAuthenticated()">--%>
-        <%--<div class="table-property-details-row">--%>
-            <%--<div class="table-property-details-cell">--%>
-                <%--<label for="message">Message to owner:</label>--%>
-            <%--</div>--%>
-            <%--<div class="table-property-details-cell">--%>
-                <%--<textarea value="" name="Comment" cols="55" rows="5" id="Comment"/>--%>
-                <%--<button class="btn js-open-send-message-dlg" style="background: darkgray ">Contact owner</button>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</sec:authorize>--%>
-
 </body>
 </html>
 
 <script type="application/javascript">
     $(document).ready(function() {
-        var ownerId = $("#ownerId").val();
-        var propertyId = $("#propertyId").val();
-        var message = $("#messageToCustomer").val();
         $("#js-send-message-btn").on('click', function(event) {
+            var ownerId = $("#ownerId").val();
+            var propertyId = $("#propertyId").val();
+            var messageToSend = $("#messagecontent").val();
+            var messageJSON = {};
+            messageJSON["message"] = messageToSend;
+            messageJSON["propertyId"] = propertyId;
+            messageJSON["ownerId"] = ownerId;
             $.ajax({
                 type: 'POST',
-                url: '/' + propertyId + '/' + ownerId + '/postMessage',
-                data: '{"message" :' + message + '}',
-                contentType: "application/json",
-                cache: false,
-                crossDomain: false,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                contentType: "application/json; charset=utf-8",
+                url: '/postMessage',
+                data: JSON.stringify(messageJSON),
+                dataType: 'json',
                 success: function(result){
                     alert("Your message has been sent");
+                    $("#messagecontent").val("");
                 },
                 error: function (result) {
-                    console.log(result);
-//                    location.reload();
+                    console.log(result);s
                 },
             });
         });

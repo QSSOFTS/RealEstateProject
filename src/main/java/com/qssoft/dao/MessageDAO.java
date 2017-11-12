@@ -53,6 +53,26 @@ public class MessageDAO
         return result;
     }
 
+    public Message getMessagesById(final int messageId)
+    {
+        Session session = SessionFactoryHelper.getSession();
+        Message result = null;
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("from Message where id = :messageId");
+            query.setParameter("messageId", messageId);
+            result = (Message) query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.getTransaction().commit();
+                session.close();
+            }
+        }
+        return result;
+    }
+
     public void createMessage(Message message)
     {
         Session session = SessionFactoryHelper.getSession();
@@ -64,6 +84,24 @@ public class MessageDAO
             ex.printStackTrace();
         } finally {
             session.close();
+        }
+    }
+
+    public void updateMessageStatus(final int messageId, final int statusId)
+    {
+        Session session = SessionFactoryHelper.getSession();
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("update Message set statusId = 2 where id = :messageId");
+            query.setParameter("messageId", messageId);
+            query.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.getTransaction().commit();
+                session.close();
+            }
         }
     }
 

@@ -29,16 +29,27 @@ public class RealEstateUserDetailsService implements UserDetailsService
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         User user = userDao.getUserByLogin(username);
         GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().getName());
-        UserDetails userDetails = new CustomUser(
-                user.getLogin(),
-                user.getPassword(),
-                true,
-                true,
-                true,
-                true,
-                Arrays.asList(authority),
-                user.getId());
+        UserDetails userDetails = getUserDetails(user, authority);
 
+        return userDetails;
+    }
+
+    private UserDetails getUserDetails(User user, GrantedAuthority authority) {
+        return new CustomUser(
+                    user.getLogin(),
+                    user.getPassword(),
+                    true,
+                    true,
+                    true,
+                    true,
+                    Arrays.asList(authority),
+                    user.getId());
+    }
+
+    public UserDetails loadUserById(final int id) throws UsernameNotFoundException {
+        User user = userDao.getUserById(id);
+        GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().getName());
+        UserDetails userDetails = getUserDetails(user, authority);
         return userDetails;
     }
 

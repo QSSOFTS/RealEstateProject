@@ -17,7 +17,7 @@
     <c:when test="${not empty propertiesList}">
       <div class="table-property">
         <div class="table-property-title">
-          <p>Here is the list of properties</p>
+          <p>List of properties available</p>
         </div>
         <div class="table-property-heading">
           <div class="table-property-cell">
@@ -37,11 +37,9 @@
               <p>Status</p>
             </div>
           </sec:authorize>
-          <%--<sec:authorize access="hasAnyRole('ROLE_OWNER', 'ROLE_ADMIN', 'ROLE_BUYER')">--%>
             <div class="table-property-cell">
               <p>Action</p>
             </div>
-          <%--</sec:authorize>--%>
         </div>
         <c:forEach items="${propertiesList}" var="property">
         <div class="table-property-row">
@@ -73,7 +71,9 @@
                 <button class="btn js_update_property_btn" onclick="location.href='/updateProperty/' + ${property.id};" style="background: greenyellow">Edit</button>
               </sec:authorize>
           </sec:authorize>
-          <input type="button" onclick="location.href='/viewProperty/' + ${property.id};" style="background: greenyellow" value="View" />
+          <sec:authorize access="hasAnyRole('ROLE_BUYER', 'ROLE_ANONYMOUS')">
+            <input type="button" onclick="location.href='/viewProperty/' + ${property.id};" style="background: greenyellow" value="View" />
+          </sec:authorize>
           </div>
         </div>
         </c:forEach>

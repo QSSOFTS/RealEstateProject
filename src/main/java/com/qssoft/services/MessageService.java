@@ -26,4 +26,12 @@ public class MessageService
         return messageDAO.getMessagesByPropertyId(propertyId);
     }
 
+    public Message getMessageById(int messageId) {
+        return messageDAO.getMessagesById(messageId);
+    }
+
+    public void markMessageAsRead(int messageId) {
+        messageDAO.updateMessageStatus(messageId, 2);
+    }
+
 }
