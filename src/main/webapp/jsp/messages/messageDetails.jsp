@@ -22,5 +22,56 @@
         </div>
     </div>
 </div>
+
+<sec:authorize access="isAuthenticated()">
+    <div class="table-property-details-row">
+        <div style="padding-left:140px">
+        <div class="table-message-replay-cell">
+            Replay
+        </div>
+        <div class="table-message-replay-cell">
+            <div style="padding-top: 10px">
+                <input type="text" id="messagecontent" value="" style="width:500px"/>
+                <input type="button" id="js-send-message-btn" style="background: gray" value="Send" />
+            </div>
+        </div>
+        <input type="hidden" id="propertyId" value="${message.propertyId}"/>
+        <input type="hidden" id="ownerId" value="${message.ownerId}"/>
+    </div>
+</sec:authorize>
+
 </body>
 </html>
+
+<script type="application/javascript">
+    $(document).ready(function() {
+        $("#js-send-message-btn").on('click', function(event) {
+            var ownerId = $("#ownerId").val();
+            var propertyId = $("#propertyId").val();
+            var messageToSend = $("#messagecontent").val();
+            var messageJSON = {};
+            messageJSON["message"] = messageToSend;
+            messageJSON["propertyId"] = propertyId;
+            messageJSON["ownerId"] = ownerId;
+            $.ajax({
+                type: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                contentType: "application/json; charset=utf-8",
+                url: '/postMessage',
+                data: JSON.stringify(messageJSON),
+                dataType: 'json',
+                success: function(result){
+                    alert("Your message has been sent");
+                    $("#messagecontent").val("");
+                },
+                error: function (result) {
+                    console.log(result);s
+                },
+            });
+        });
+    })
+</script>
+

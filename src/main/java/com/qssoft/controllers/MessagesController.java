@@ -40,7 +40,13 @@ public class MessagesController
     {
         List<Message> allMessagesToOwner = messageService.getAllMessagesToOwner(UserAccessHelper.getUserId());
         model.addAttribute("messagesList", populateMessageDTO(allMessagesToOwner));
+        model.addAttribute("numberOfUnread", getNumberOfUnreadMessages(allMessagesToOwner));
         return "messages/messagesList";
+    }
+
+    private int getNumberOfUnreadMessages(List<Message> messages)
+    {
+        return Math.toIntExact(messages.stream().filter(message -> message.getStatusId() == 1).count());
     }
 
     @RequestMapping(value="/viewMessage/{id}", method = RequestMethod.GET)
@@ -49,6 +55,8 @@ public class MessagesController
         Message message = messageService.getMessageById(Integer.parseInt(id));
         MessageDTO result = new MessageDTO();
         result.setMessage(message.getMessage());
+        result.setOwnerId(String.valueOf(message.getSenderId()));
+        result.setPropertyId(String.valueOf(message.getPropertyId()));
         messageService.markMessageAsRead(Integer.parseInt(id));
         model.addAttribute("message", result);
         return "messages/messageDetails";

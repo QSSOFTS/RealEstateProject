@@ -120,6 +120,11 @@ html, body {
     vertical-align: top;
     border-bottom: 0.5pt solid gray;
 }
+.table-message-replay-cell
+{
+    display: table-cell;
+    padding-left:20px;
+}
 
 .login-div-format
 {

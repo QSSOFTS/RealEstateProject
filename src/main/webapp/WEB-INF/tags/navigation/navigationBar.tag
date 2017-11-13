@@ -22,7 +22,7 @@
         <a href="<c:url value="/addProperty"/>">Add property</a>
     </sec:authorize>
 
-    <sec:authorize access="hasAnyRole('ROLE_OWNER')">
+    <sec:authorize access="hasAnyRole('ROLE_OWNER', 'ROLE_ADMIN', 'ROLE_BUYER')">
         <a href="<c:url value="/showMessages"/>">My messages</a>
     </sec:authorize>
 
