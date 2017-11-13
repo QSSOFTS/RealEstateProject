@@ -53,8 +53,7 @@
                 </div>
             </div>
             <div class="form-actions">
-                <input type="button" onclick="validateAndSubmit()" class="btn" value="View" />
-                <%--<button type="submit" class="btn">Create User</button>--%>
+                <input type="button" onclick="validateAndSubmit()" class="btn" value="Register" />
             </div>
         </div>
     </form>
