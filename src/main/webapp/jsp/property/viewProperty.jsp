@@ -18,95 +18,110 @@
     <div class="main">
         <section id="content">
             <div class="wrapper">
-
-                <h3>View property:</h3>
-                <div class="table-property-details">
-                    <div class="table-property-details-row">
-                        <div class="table-property-details-cell">
-                            <label for="dealDescription">Ad Type</label>
-                        </div>
-                        <div class="table-property-details-cell" id="dealDescription">
-                            ${property.dealDescription}
-                        </div>
-                    </div>
-
-                    <div class="table-property-details-row">
-                        <div class="table-property-details-cell">
-                            <label for="title">Title:</label>
-                        </div>
-                        <div class="table-property-details-cell" id="title">
-                            ${property.title}
-                        </div>
-                    </div>
-
-                    <div class="table-property-details-row">
-                        <div class="table-property-details-cell">
-                            <label for="descriptionStr">Description:</label>
-                        </div>
-                        <div class="table-property-details-cell">
-                            <div id="descriptionStr">${property.description}</div>
-                        </div>
-                    </div>
-
-                    <div class="table-property-details-row">
-                        <div class="table-property-details-cell">
-                            <label for="priceStr">Price:</label>
-                        </div>
-                        <div class="table-property-details-cell">
-                            <dir id="priceStr">${property.price}</dir>
-                        </div>
-                    </div>
-
-                    <div class="table-property-details-row">
-                        <div class="table-property-details-cell">
-                            <label for="address">Address:</label>
-                        </div>
-                        <div class="table-property-details-cell">
-                            <br/>
-                            <div id="address">${property.address}</div>
-                        </div>
-                    </div>
-
-                    <div class="table-property-details-row">
-                        <div class="table-property-details-cell">
-                            <label for="nearbyLocations">Important places:</label>
-                        </div>
-                        <div class="table-property-details-cell">
-                            <br/>
-                            <div id="nearbyLocations">${property.nearbyLocations}</div>
-                        </div>
-                    </div>
-
-                    <div class="table-property-details-row">
-                        <div class="table-property-details-cell">
-                            <label for="map">Location:</label>
-                        </div>
-                        <div class="table-property-details-cell">
-                            <div id="map" style="margin-bottom: 20px"></div>
-                        </div>
-                    </div>
-
-                    <sec:authorize access="isAuthenticated()">
-                        <div class="table-property-details-row">
-                            <div class="table-property-details-cell">
-                                Message to owner
-                            </div>
-                            <div class="table-property-details-cell">
-                                <div style="padding-top: 10px">
-                                    <input type="text" id="messagecontent" value="" style="width:500px"/>
-                                    <input type="button" id="js-send-message-btn" style="background: gray"
-                                           value="Send"/>
+                <div class="common_col">
+                    <div class="pad2">
+                        <h2>View property:</h2>
+                        <div class="table-property-details">
+                            <div class="table-property-details-row">
+                                <div class="table-property-details-cell">
+                                    <label for="dealDescription">Ad Type</label>
+                                </div>
+                                <div class="table-property-details-cell" id="dealDescription">
+                                    ${property.statusDescription}
                                 </div>
                             </div>
+
+                            <div class="table-property-details-row">
+                                <div class="table-property-details-cell">
+                                    <label for="title">Title:</label>
+                                </div>
+                                <div class="table-property-details-cell" id="title">
+                                    ${property.title}
+                                </div>
+                            </div>
+
+                            <div class="table-property-details-row">
+                                <div class="table-property-details-cell">
+                                    <label for="descriptionStr">Description:</label>
+                                </div>
+                                <div class="table-property-details-cell">
+                                    <div id="descriptionStr">${property.description}</div>
+                                </div>
+                            </div>
+
+                            <div class="table-property-details-row">
+                                <div class="table-property-details-cell">
+                                    <label for="priceStr">Price:</label>
+                                </div>
+                                <div class="table-property-details-cell">
+                                    <div id="priceStr">$ ${property.price}</div>
+                                </div>
+                            </div>
+
+                            <div class="table-property-details-row">
+                                <div class="table-property-details-cell">
+                                    <label for="address">Address:</label>
+                                </div>
+                                <div class="table-property-details-cell">
+                                    <br/>
+                                    <div id="address">${property.address}</div>
+                                </div>
+                            </div>
+
+                            <div class="table-property-details-row">
+                                <div class="table-property-details-cell">
+                                    <label for="nearbyLocations">Important places:</label>
+                                </div>
+                                <div class="table-property-details-cell">
+                                    <br/>
+                                    <div id="nearbyLocations">${property.nearbyLocations}</div>
+                                </div>
+                            </div>
+
+                            <div class="table-property-details-row">
+                                <div class="table-property-details-cell">
+                                    <label for="map">Location:</label>
+                                </div>
+                                <div class="table-property-details-cell">
+                                    <div id="map" style="margin-bottom: 20px"></div>
+                                </div>
+                            </div>
+
+                            <div class="table-property-details-row">
+                                <div class="table-property-details-cell">
+                                    Photo
+                                </div>
+                                <div class="table-property-details-cell">
+                                    <c:set var="imgUrl" value="/images/noimage.png"/>
+                                    <c:if test="${not empty property.pictureCode}">
+                                        <c:set var="imgUrl" value="/images/property/${property.pictureCode}"/>
+                                    </c:if>
+                                    <figure class="left marg_right1"><img width="500" src="${imgUrl}" alt=""></figure>
+                                </div>
+                            </div>
+
+                            <sec:authorize access="isAuthenticated()">
+                                <div class="table-property-details-row">
+                                    <div class="table-property-details-cell">
+                                        Message to owner
+                                    </div>
+                                    <div class="table-property-details-cell">
+                                        <div style="padding-top: 10px">
+                                            <input type="text" id="messagecontent" value=""
+                                                   style="width:500px;height: 25px;"/>
+                                            <a href="#" id="js-send-message-btn" class="button js_approve_property_btn">Send</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </sec:authorize>
+
+                            <input type="hidden" id="latitude" name="latitude" value="${property.latitude}"/>
+                            <input type="hidden" id="longitude" name="longitude" value="${property.longitude}"/>
+                            <input type="hidden" id="propertyId" value="${property.id}"/>
+                            <input type="hidden" id="ownerId" value="${property.ownerId}"/>
                         </div>
-                    </sec:authorize>
-
-                    <input type="hidden" id="latitude" name="latitude" value="${property.latitude}"/>
-                    <input type="hidden" id="longitude" name="longitude" value="${property.longitude}"/>
-                    <input type="hidden" id="propertyId" value="${property.id}"/>
-                    <input type="hidden" id="ownerId" value="${property.ownerId}"/>
+                    </div>
                 </div>
-
             </div>
         </section>
     </div>

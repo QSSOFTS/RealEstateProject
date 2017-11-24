@@ -51,7 +51,7 @@
                                         <label for="trumbowyg-demo">Description:</label>
                                     </div>
                                     <div class="table-property-details-cell">
-                                        <textarea rows="4" cols="50" id="trumbowyg-demo">
+                                        <textarea id="trumbowyg-demo">
                                             ${property.description}
                                         </textarea>
                                     </div>
@@ -130,7 +130,6 @@
                                     <img id="imageTemplate" width="100" src=""/>
                                 </div>
                                 <div id="imageGallery" class="table-property-details-cell">
-
                                 </div>
                             </div>
 
@@ -208,12 +207,22 @@
 </script>
 
 <script>
+    $(document).ready(function() {
+        var existingImage = $("#propertyForm input[name='pictureCode']").val();
+        if (existingImage != undefined && existingImage != "") {
+            $('#imageTemplate').attr("src", "/images/property/" + existingImage);
+            $("#imageGallery").html($("#imageTemplateWrapper").html())
+            $("#picturesDiv").show();
+        }
+    })
+
+
     $("#js_form_submit").click(function (evt) {
         if ($("#propertyForm input[name='price']").val() == "") {
             $("#propertyForm input[name='price']").val(0);
         }
         $("#propertyForm input[name='address']").val($("#propertyForm input[name='location']").val());
-        $("#propertyForm input[name='description']").val($('#trumbowyg-demo').html());
+        $("#propertyForm input[name='description']").val($('#trumbowyg-demo').val());
         $("#propertyForm").attr('action', '/addProperty');
         $("#propertyForm").submit();
     })

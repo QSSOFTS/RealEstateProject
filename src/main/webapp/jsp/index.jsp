@@ -17,7 +17,7 @@
     <div class="main">
         <div class="wrapper">
           <article class="col1">
-            <div id="slider"> <img src="images/img1.jpg" alt="" title="<strong>Villa Neverland, 2006</strong><span>9 rooms, 3 baths, 6 beds, building size: 5000 sq. ft. &nbsp; &nbsp; &nbsp; Price: $ 600 000 &nbsp; &nbsp; &nbsp; <a href='#'>Read more</a></span>"> <img src="images/img2.jpg" alt="" title="<strong>Villa Lipsum, 2008</strong><span>8 rooms, 4 baths, 4 beds, building size: 4500 sq. ft. &nbsp; &nbsp; &nbsp; Price: $ 500 000 &nbsp; &nbsp; &nbsp; <a href='#'>Read more</a></span>"> <img src="images/img3.jpg" alt="" title="<strong>Villa Dolor Sid, 2007</strong><span>11 rooms, 3 baths, 5 beds, building size: 6000 sq. ft. &nbsp; &nbsp; &nbsp; Price: $ 650 000 &nbsp; &nbsp; &nbsp; <a href='#'>Read more</a></span>"> <img src="images/img4.jpg" alt="" title="<strong>Villa Nemo Enim, 2010</strong><span>5 rooms, 2 baths, 4 beds, building size: 3000 sq. ft. &nbsp; &nbsp; &nbsp; Price: $ 400 000 &nbsp; &nbsp; &nbsp; <a href='#'>Read more</a></span>"> <img src="images/img5.jpg" alt="" title="<strong>Villa Nam Libero, 2003</strong><span>7 rooms, 4 baths, 6 beds, building size: 7000 sq. ft. &nbsp; &nbsp; &nbsp; Price: $ 700 000 &nbsp; &nbsp; &nbsp; <a href='#'>Read more</a></span>"> </div>
+            <div id="slider"> <img src="images/img1.jpg" alt="" title=""></div>
           </article>
 
           <article class="col2">
@@ -25,13 +25,15 @@
                 <h3>Find Your Property</h3>
                 <form action="/search" path="/search" method="GET">
                   <div class="search-form-div">
+                    Input your search criteria
                     <input type="text" id="searchQuery" name="searchQuery"/>
                     <select name="searchCondition" id="searchCondition">
                       <option value="city">City</option>
                       <option value="price">Price</option>
                     </select>
-                    <input id="searchButton" type="submit" class="button" value="Search">
                   </div>
+                  <br/>
+                  <input id="searchButton" type="submit" class="button" value="Search">
                 </form>
               </div>
           </article>
@@ -74,13 +76,38 @@
                       <p class="pad_bot1"><strong class="color2">${property.title}<br>
                         Price: <span class="color1">$&nbsp;${property.price}</span></strong></p>
                       <p class="pad_bot2">${property.description}</p>
-                      <a href="viewProperty/${property.id}" class="button">Read more</a>
-                      <sec:authorize access="hasAnyRole('ROLE_OWNER', 'ROLE_ADMIN')">
-                        <a href="#" class="button js_delete_property_btn" style="background: orangered">Delete</a>
+
+                      <c:set var="loggedInUserId"><sec:authentication property="principal.id" /></c:set>
+                      <c:choose>
+                        <c:when test="${loggedInUserId eq property.ownerId}">
+                          <a href="/updateProperty/${property.id}" class="button js_update_property_btn">Edit</a>
+                        </c:when>
+                        <c:otherwise>
+                          <a href="/viewProperty/${property.id}" class="button">Read more</a>
+                        </c:otherwise>
+                      </c:choose>
+
+                      <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+                        &nbsp;
+                        <c:choose>
+                          <c:when test="${property.statusId eq 1}">
+                            <a href="#" class="button js_delete_property_btn">Approve</a>
+                          </c:when>
+                          <c:when test="${property.statusId eq 2}">
+                            Approved
+                          </c:when>
+                        </c:choose>
                       </sec:authorize>
                       <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-                        <a href="#" class="button js_approve_property_btn" style="background: greenyellow">Delete</a>
-                        <%--<button class="btn js_approve_property_btn" style="background: greenyellow">Approve</button>--%>
+                        &nbsp;
+                        <c:choose>
+                          <c:when test="${property.statusId ne 3}">
+                            <a href="#" class="button js_delete_property_btn">Delete</a>
+                          </c:when>
+                          <c:otherwise>
+                            Deleted
+                          </c:otherwise>
+                        </c:choose>
                       </sec:authorize>
                     </div>
                   </c:forEach>
@@ -89,7 +116,7 @@
                 <c:otherwise>
                   <div style="display: table; width: 100%;">
                     <div style="display: table-row;">
-                      There is nothing to display now.
+                      There is approved properties at the moment.
                     </div>
                   </div>
                 </c:otherwise>
@@ -183,7 +210,7 @@
     <script type="application/javascript">
       $(document).ready(function() {
         $(".js_delete_property_btn").on('click', function(event) {
-          var index = $(event.target).closest('.table-property-row').find('.js_property_id').val();
+          var index = $(event.target).closest('.wrapper.pad_bot3').find('.js_property_id').val();
           $.ajax({
             type: 'POST',
             url: '/deleteProperty/' + index,
@@ -200,7 +227,7 @@
         });
 
         $(".js_approve_property_btn").on('click', function(event) {
-          var index = $(event.target).closest('.table-property-row').find('.js_property_id').val();
+          var index = $(event.target).closest('.wrapper.pad_bot3').find('.js_property_id').val();
           $.ajax({
             type: 'POST',
             url: '/approveProperty/' + index,
@@ -211,14 +238,14 @@
               location.reload();
             },
             error: function (result) {
-              location.reload();
+//              location.reload();
             },
           });
         });
       });
 
       $(".js_view_property_btn").on('click', function(event) {
-        var index = $(event.target).closest('.table-property-row').find('.js_property_id').val();
+        var index = $(event.target).closest('.wrapper.pad_bot3').find('.js_property_id').val();
         $.ajax({
           type: 'POST',
           url: '/viewProperty/' + index,

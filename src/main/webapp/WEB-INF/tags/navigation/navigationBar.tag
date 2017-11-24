@@ -10,7 +10,15 @@
 <spring:url value="/css/trumbowyg.min.css" var="trumbowygCss" />
 
 <spring:url value="/js/jquery-3.2.1.min.js" var="jqueryJs" />
-<spring:url value="/js/trumbowyg.min.js" var="trumbowygJs" />
+<spring:url value="/js/script.js" var="scriptJS" />
+<spring:url value="/js/jquery.nivo.slider.pack.js" var="jquerySlider" />
+<spring:url value="/js/cufon-replace.js" var="cufonReplace" />
+<spring:url value="/js/cufon-yui.js" var="cufonYui" />
+<spring:url value="/js/atooltip.jquery.js" var="autoflipQuery" />
+<spring:url value="/js/jquery.jqtransform.js" var="jqueryTransform" />
+<spring:url value="/js/jquery.easing.1.3.js" var="jqueryEasing" />
+<spring:url value="/js/html5.js" var="html5" />
+<spring:url value="/js/Didact_Gothic_400.font.js" var="directFont" />
 
 <head>
     <link href="${resetCss}" rel="stylesheet" />
@@ -20,8 +28,6 @@
     <link href="${trumbowygCss}" rel="stylesheet" />
 
     <script src="${jqueryJs}"></script>
-    <script src="${trumbowygJs}"></script>
-
     <style type="text/css">
         cufon{text-indent:0!important;}@media screen,projection{cufon{display:inline!important;display:inline-block!important;position:relative!important;vertical-align:middle!important;font-size:1px!important;line-height:1px!important;}cufon cufontext{display:-moz-inline-box!important;display:inline-block!important;width:0!important;height:0!important;overflow:hidden!important;text-indent:-10000in!important;}cufon canvas{position:relative!important;}}@media print{cufon{padding:0!important;}cufon canvas{display:none!important;}}
     </style>
@@ -94,6 +100,8 @@
     </div>
 </div>
 
+<%--<script>Cufon.now();</script>--%>
+
 <script>
     $("#js_form_submit").click(function () {
         $("#propertyForm input[name='address']").val($("#propertyForm input[name='location']").val());
@@ -101,4 +109,38 @@
         $("#propertyForm").attr('action', '/addProperty');
         $("#propertyForm").submit();
     })
+
+//    $(window).load(function () {
+//        $('#slider').nivoSlider({
+//            effect: 'sliceUpDown', //Specify sets like: 'fold,fade,sliceDown, sliceDownLeft, sliceUp, sliceUpLeft, sliceUpDown, sliceUpDownLeft'
+//            slices: 17,
+//            animSpeed: 500,
+//            pauseTime: 6000,
+//            startSlide: 0, //Set starting Slide (0 index)
+//            directionNav: false, //Next & Prev
+//            directionNavHide: false, //Only show on hover
+//            controlNav: true, //1,2,3...
+//            controlNavThumbs: false, //Use thumbnails for Control Nav
+//            controlNavThumbsFromRel: false, //Use image rel for thumbs
+//            controlNavThumbsSearch: '.jpg', //Replace this with...
+//            controlNavThumbsReplace: '_thumb.jpg', //...this in thumb Image src
+//            keyboardNav: true, //Use left & right arrows
+//            pauseOnHover: true, //Stop animation while hovering
+//            manualAdvance: false, //Force manual transitions
+//            captionOpacity: 1, //Universal caption opacity
+//            beforeChange: function () {
+//                $('.nivo-caption').animate({
+//                    bottom: '-110'
+//                }, 400, 'easeInBack')
+//            },
+//            afterChange: function () {
+//                Cufon.refresh();
+//                $('.nivo-caption').animate({
+//                    bottom: '-20'
+//                }, 400, 'easeOutBack')
+//            },
+//            slideshowEnd: function () {} //Triggers after all slides have been shown
+//        });
+//        Cufon.refresh();
+//    });
 </script>
