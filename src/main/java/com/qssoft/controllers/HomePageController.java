@@ -29,7 +29,7 @@ public class HomePageController
         List<Property> propertiesList = null;
 
         if(UserAccessHelper.isAdmin()) {
-            propertiesList = propertyDetailsService.getAllProperties();
+            propertiesList = propertyDetailsService.getNonDeleteProperties();
         } else if (UserAccessHelper.isOwner()) {
             int userId = UserAccessHelper.getUserId();
             propertiesList = propertyDetailsService.getPropertiesByOwnerId(userId);

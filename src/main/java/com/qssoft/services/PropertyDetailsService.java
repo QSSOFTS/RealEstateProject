@@ -32,6 +32,11 @@ public class PropertyDetailsService
         return realEstateToPropertyHelperService.entityToPropertyList(propertiesListForAdmin);
     }
 
+    public List<Property> getNonDeleteProperties() {
+        List<RealEstate> propertiesListForAdmin = realEstateDAO.getNonDelitedPropertiesListForAdmin();
+        return realEstateToPropertyHelperService.entityToPropertyList(propertiesListForAdmin);
+    }
+
     public List<Property> getPropertiesByOwnerId(Integer id) {
         List<RealEstate> propertiesListForAdmin = realEstateDAO.getPropertiesListByOwner(id);
         return realEstateToPropertyHelperService.entityToPropertyList(propertiesListForAdmin);

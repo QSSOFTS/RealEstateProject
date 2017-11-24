@@ -68,6 +68,25 @@ public class RealEstateDAO
         return result;
     }
 
+    public List<RealEstate> getNonDelitedPropertiesListForAdmin() {
+        Session session = SessionFactoryHelper.getSession();
+        List<RealEstate> result = null;
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery( "from RealEstate where statusId <> :statusId" );
+            query.setParameter("statusId", 3);
+            result= query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.getTransaction().commit();
+                session.close();
+            }
+        }
+        return result;
+    }
+
     public List<RealEstate> getApprovedProperties() {
         Session session = SessionFactoryHelper.getSession();
         List<RealEstate> result = null;
@@ -150,8 +169,9 @@ public class RealEstateDAO
         List<RealEstate> result = null;
         try {
             session.beginTransaction();
-            Query query = session.createQuery("from RealEstate where ownerId = :ownerId");
+            Query query = session.createQuery("from RealEstate where ownerId = :ownerId AND statusId <> :statusId");
             query.setParameter("ownerId", ownerId);
+            query.setParameter("statusId", 3);
             result = query.list();
         } catch (Exception e) {
             e.printStackTrace();
