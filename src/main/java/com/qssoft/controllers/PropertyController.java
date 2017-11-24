@@ -115,7 +115,7 @@ public class PropertyController
     public ResponseEntity<String> doFileUpload(@RequestParam CommonsMultipartFile file,
                              HttpSession session) {
         String path = session.getServletContext().getRealPath("/");
-        path += "images\\property\\";
+        path += "images\\";
         String filename = file.getOriginalFilename();
         try {
             byte barr[] = file.getBytes();

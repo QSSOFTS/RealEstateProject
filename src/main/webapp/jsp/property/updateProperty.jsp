@@ -210,7 +210,7 @@
     $(document).ready(function() {
         var existingImage = $("#propertyForm input[name='pictureCode']").val();
         if (existingImage != undefined && existingImage != "") {
-            $('#imageTemplate').attr("src", "/images/property/" + existingImage);
+            $('#imageTemplate').attr("src", "/images/" + existingImage);
             $("#imageGallery").html($("#imageTemplateWrapper").html())
             $("#picturesDiv").show();
         }
@@ -241,7 +241,7 @@
             success : function(data) {
                 console.log(data);
                 $("#propertyForm input[name='pictureCode']").val(data);
-                $('#imageTemplate').attr("src", "/images/property/" + data);
+                $('#imageTemplate').attr("src", "/images/" + data);
                 $("#imageGallery").html($("#imageTemplateWrapper").html())
                 $("#picturesDiv").show();
             }

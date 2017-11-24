@@ -1,3 +1,4 @@
+<%@ page import="com.qssoft.security.UserAccessHelper" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -70,28 +71,46 @@
                       <input type="hidden" class="js_property_id" value="${property.id}" />
                       <c:set var="imgUrl" value="/images/noimage.png"/>
                       <c:if test="${not empty property.pictureCode}">
-                          <c:set var="imgUrl" value="/images/property/${property.pictureCode}"/>
+                          <c:set var="imgUrl" value="/images/${property.pictureCode}"/>
                       </c:if>
                       <figure class="left marg_right1"><img width="100" src="${imgUrl}" alt=""></figure>
                       <p class="pad_bot1"><strong class="color2">${property.title}<br>
                         Price: <span class="color1">$&nbsp;${property.price}</span></strong></p>
                       <p class="pad_bot2">${property.description}</p>
-
-                      <c:set var="loggedInUserId"><sec:authentication property="principal.id" /></c:set>
-                      <c:choose>
-                        <c:when test="${loggedInUserId eq property.ownerId}">
-                          <a href="/updateProperty/${property.id}" class="button js_update_property_btn">Edit</a>
-                        </c:when>
-                        <c:otherwise>
-                          <a href="/viewProperty/${property.id}" class="button">Read more</a>
-                        </c:otherwise>
-                      </c:choose>
-
+                      <sec:authorize access="isAuthenticated()">
+                        <sec:authorize access="hasAnyRole('ROLE_OWNER')">
+                        <c:set var="userId"><sec:authentication property="principal.id"/></c:set>
+                        <c:choose>
+                          <c:when test="${userId eq property.ownerId}">
+                            <a href="/updateProperty/${property.id}" class="button js_update_property_btn">Edit</a>
+                            <c:choose>
+                              <c:when test="${property.statusId ne 3}">
+                                <a href="#" class="button js_delete_property_btn">Delete</a>
+                              </c:when>
+                              <c:otherwise>
+                                Deleted
+                              </c:otherwise>
+                            </c:choose>
+                          </c:when>
+                          <c:otherwise>
+                            <a href="/viewProperty/${property.id}" class="button">Read more</a>
+                          </c:otherwise>
+                        </c:choose>
+                        </sec:authorize>
+                      </sec:authorize>
                       <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+                        <c:choose>
+                          <c:when test="${userId eq property.ownerId}">
+                            <a href="/updateProperty/${property.id}" class="button js_update_property_btn">Edit</a>
+                          </c:when>
+                          <c:otherwise>
+                            <a href="/viewProperty/${property.id}" class="button">Read more</a>
+                          </c:otherwise>
+                        </c:choose>
                         &nbsp;
                         <c:choose>
                           <c:when test="${property.statusId eq 1}">
-                            <a href="#" class="button js_delete_property_btn">Approve</a>
+                            <a href="#" class="button js_approve_property_btn">Approve</a>
                           </c:when>
                           <c:when test="${property.statusId eq 2}">
                             Approved
