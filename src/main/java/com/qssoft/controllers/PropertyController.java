@@ -16,9 +16,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -45,17 +53,17 @@ public class PropertyController
     @Autowired
     DealTypeService dealTypeService;
 
-    @RequestMapping(value="/addProperty", method = RequestMethod.GET)
-    public String addProperty (Model model) {
+    @RequestMapping(value = "/addProperty", method = RequestMethod.GET)
+    public String addProperty(Model model) {
         model.addAttribute("property", new Property());
         model.addAttribute("dealTypes", dealTypeService.getAllDealTypes());
         return "property/updateProperty";
     }
 
-    @RequestMapping(value="/updateProperty/{id}", method = RequestMethod.GET)
-    public String addPropertyDetails (@PathVariable("id") final String id, Model model) {
+    @RequestMapping(value = "/updateProperty/{id}", method = RequestMethod.GET)
+    public String addPropertyDetails(@PathVariable("id") final String id, Model model) {
         Property property;
-        if(id == null) {
+        if (id == null) {
             property = new Property();
         } else {
             property = propertyDetailsService.getPropertyById(id);
@@ -67,8 +75,8 @@ public class PropertyController
         return "property/updateProperty";
     }
 
-    @RequestMapping(value="/viewProperty/{id}", method = RequestMethod.GET)
-    public String viewPropertyDetails (@PathVariable("id") final String id, Model model) {
+    @RequestMapping(value = "/viewProperty/{id}", method = RequestMethod.GET)
+    public String viewPropertyDetails(@PathVariable("id") final String id, Model model) {
 
         model.addAttribute("property", propertyDetailsService.getPropertyById(id));
         return "property/viewProperty";
@@ -77,26 +85,24 @@ public class PropertyController
     @ResponseBody
     @RequestMapping(value = "/deleteProperty/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public String deleteProperty(@PathVariable("id") final String id)
-            throws Exception
-    {
+            throws Exception {
         propertyDetailsService.deleteProperty(Integer.parseInt(id));
         return "success";
     }
 
     @ResponseBody
     @RequestMapping(value = "/approveProperty/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> approveProperty(@PathVariable("id") final String id)
-    {
+    public ResponseEntity<String> approveProperty(@PathVariable("id") final String id) {
         propertyDetailsService.approveProperty(Integer.parseInt(id));
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
-    @RequestMapping(value="/addProperty", method = RequestMethod.POST)
-    public void addProperty (@ModelAttribute Property property, HttpServletResponse response) throws IOException {
-        if(property.getOwnerId() == null) {
+    @RequestMapping(value = "/addProperty", method = RequestMethod.POST)
+    public void addProperty(@ModelAttribute Property property, HttpServletResponse response) throws IOException {
+        if (property.getOwnerId() == null) {
             property.setOwnerId(UserAccessHelper.getUserId());
         }
-        if(property.getStatusId() == null) {
+        if (property.getStatusId() == null) {
             property.setStatusId(propertyStatusMap.get("NEW"));
         }
         propertyDetailsService.createOrUpdateProperty(property);
@@ -104,6 +110,25 @@ public class PropertyController
         response.sendRedirect("/");
     }
 
-}
 
+    @RequestMapping(value = "/uploadPicture", method = RequestMethod.POST)
+    public ResponseEntity<String> doFileUpload(@RequestParam CommonsMultipartFile file,
+                             HttpSession session) {
+        String path = session.getServletContext().getRealPath("/");
+        path += "images\\property\\";
+        String filename = file.getOriginalFilename();
+        try {
+            byte barr[] = file.getBytes();
+
+            BufferedOutputStream bout = new BufferedOutputStream(
+                    new FileOutputStream(path + filename));
+            bout.write(barr);
+            bout.flush();
+            bout.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(filename, HttpStatus.OK);
+    }
+}
 

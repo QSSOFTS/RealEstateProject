@@ -5,6 +5,7 @@ import com.qssoft.dao.PropertyStatusDAO;
 import com.qssoft.dao.UserDAO;
 import com.qssoft.dto.Property;
 import com.qssoft.entities.DealType;
+import com.qssoft.entities.PropertyPicture;
 import com.qssoft.entities.RealEstate;
 import com.qssoft.entities.Status;
 import com.qssoft.entities.User;
@@ -49,7 +50,8 @@ class RealEstateToPropertyHelperService
                 entity.getLongitude(),
                 dealType.getName(),
                 status.getName(),
-                owner.getLogin()
+                owner.getLogin(),
+                entity.getPictureCode()
         );
         return result;
     }

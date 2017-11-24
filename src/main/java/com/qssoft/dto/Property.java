@@ -19,6 +19,7 @@ public class Property
     private String statusDescription;
     private String ownerName;
     private String dealDescription;
+    private String pictureCode;
 
     public String getTitle() {
         return title;
@@ -140,11 +141,21 @@ public class Property
         this.id = id;
     }
 
+    public String getPictureCode() {
+        return pictureCode;
+    }
+
+    public void setPictureCode(String pictureCode) {
+        this.pictureCode = pictureCode;
+    }
+
     public Property() {
     }
 
-    public Property(Integer id, String title, String description, Integer dealTypeId, BigDecimal price, Integer ownerId, String
-            address, String nearbyLocations, String adminNote, Integer statusId, Float latitude, Float longitude, String dealDescription, String statusDescription, String ownerName) {
+    public Property(Integer id, String title, String description, Integer dealTypeId, BigDecimal price, Integer
+            ownerId, String address, String nearbyLocations, String adminNote, Integer statusId, Float latitude,
+                    Float longitude, String statusDescription, String ownerName, String dealDescription, String
+                            pictureCode) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -157,8 +168,31 @@ public class Property
         this.statusId = statusId;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.dealDescription = dealDescription;
         this.statusDescription = statusDescription;
         this.ownerName = ownerName;
+        this.dealDescription = dealDescription;
+        this.pictureCode = pictureCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", dealTypeId=" + dealTypeId +
+                ", price=" + price +
+                ", ownerId=" + ownerId +
+                ", address='" + address + '\'' +
+                ", nearbyLocations='" + nearbyLocations + '\'' +
+                ", adminNote='" + adminNote + '\'' +
+                ", statusId=" + statusId +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", statusDescription='" + statusDescription + '\'' +
+                ", ownerName='" + ownerName + '\'' +
+                ", dealDescription='" + dealDescription + '\'' +
+                ", pictureCode='" + pictureCode + '\'' +
+                '}';
     }
 }

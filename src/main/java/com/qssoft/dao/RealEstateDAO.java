@@ -3,6 +3,7 @@ package com.qssoft.dao;
 
 import com.qssoft.dto.Property;
 import com.qssoft.entities.DealType;
+import com.qssoft.entities.PropertyPicture;
 import com.qssoft.entities.RealEstate;
 import com.qssoft.entities.Status;
 import com.qssoft.entities.User;
@@ -22,6 +23,8 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 @Transactional
@@ -196,6 +199,7 @@ public class RealEstateDAO
 //    }
 
     private RealEstate createEntity(Property property) {
+        PropertyPicture pp = new PropertyPicture(property.getId(), property.getPictureCode());
         RealEstate realEstate = new RealEstate(
                 property.getId(),
                 property.getDealTypeId(),
@@ -208,7 +212,8 @@ public class RealEstateDAO
                 property.getAdminNote(),
                 property.getStatusId(),
                 property.getLatitude(),
-                property.getLongitude()
+                property.getLongitude(),
+                property.getPictureCode()
         );
 
         return realEstate;

@@ -96,6 +96,7 @@ CREATE TABLE `RealEstates` (
   `statusId` INT(11) NOT NULL,
   `adminNote` VARCHAR(512) NULL,
   `address` VARCHAR(512) NOT NULL,
+  `pictureCode` VARCHAR(512) NULL,
   `price` decimal(18,2) NOT NULL,
   `nearbyLocations` VARCHAR(1024) NULL,
   `lat` FLOAT(10, 6) NOT NULL,
@@ -128,6 +129,15 @@ CREATE TABLE `HotDeals` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`propertyId`) REFERENCES `RealEstates`(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- CREATE TABLE `Pictures` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `propertyId` int(11) NOT NULL,
+--   `pictureCode` VARCHAR(128) NOT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `propertyId` (`propertyId`),
+--   CONSTRAINT `items_ibfk_1` FOREIGN KEY (`propertyId`) REFERENCES `RealEstates` (id)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET foreign_key_checks = 1;
 

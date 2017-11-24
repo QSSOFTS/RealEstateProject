@@ -25,5 +25,6 @@
     <mapping class="com.qssoft.entities.DealType"/>
     <mapping class="com.qssoft.entities.HotDeal"/>
     <mapping class="com.qssoft.entities.Message"/>
+    <mapping class="com.qssoft.entities.PropertyPicture"/>
   </session-factory>
 </hibernate-configuration>

@@ -1,15 +1,12 @@
 package com.qssoft.entities;
 
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Realestates")
@@ -28,6 +25,7 @@ public class RealEstate implements Serializable
     private Integer statusId;
     private Float latitude;
     private Float longitude;
+    private String pictureCode;
 
     @Id
     @GeneratedValue(generator="increment")
@@ -135,12 +133,21 @@ public class RealEstate implements Serializable
         return longitude;
     }
 
+    @Column(name = "pictureCode")
+    public String getPictureCode() {
+        return pictureCode;
+    }
+
+    public void setPictureCode(String pictureCode) {
+        this.pictureCode = pictureCode;
+    }
+
     public void setLongitude(Float longitude) {
         this.longitude = longitude;
     }
 
     public RealEstate(Integer id, Integer dealTypeId, String title, String description, Integer ownerId, BigDecimal price, String
-            address, String nearbyLocations, String adminNote, Integer statusId, Float latitude, Float longitude) {
+            address, String nearbyLocations, String adminNote, Integer statusId, Float latitude, Float longitude, String pictureCode) {
         this.id = id;
         this.dealTypeId = dealTypeId;
         this.title = title;
@@ -153,6 +160,7 @@ public class RealEstate implements Serializable
         this.statusId = statusId;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.pictureCode = pictureCode;
     }
 
     public RealEstate() {
