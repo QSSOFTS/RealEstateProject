@@ -6,7 +6,7 @@
 
 <%@ taglib prefix="navigation" tagdir="/WEB-INF/tags/navigation"%>
 
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<html xmlns:tiles="http://www.thymeleaf.org">
   <head>
     <title>List of available properties</title>
   </head>
@@ -40,19 +40,6 @@
           </article>
         </div>
     </div>
-        <%--<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_OWNER', 'ROLE_BUYER')">--%>
-    <%--<form action="/search" path="/search" method="GET">--%>
-    <%--<div class="search-form-div">--%>
-    <%--<input type="text" id="searchQuery" name="searchQuery"/>--%>
-    <%--<select name="searchCondition" id="searchCondition">--%>
-    <%--<option value="city">City</option>--%>
-    <%--<option value="price">Price</option>--%>
-    <%--</select>--%>
-    <%--<input id="searchButton" type="submit" class="btn" value="Search">--%>
-    <%--</div>--%>
-    <%--</form>--%>
-    <%--</sec:authorize>--%>
-
   </div>
 
   <div tiles:fragment="content" class="body3">
@@ -96,8 +83,12 @@
                         </sec:authorize>
                       </sec:authorize>
 
-                      <sec:authorize access="hasAnyRole('ROLE_BUYER', 'ROLE_ANONYMOUS')">
+                      <sec:authorize access="hasAnyRole('ROLE_BUYER')">
                         <a href="/viewProperty/${property.id}" class="button">Read more</a>
+                      </sec:authorize>
+
+                      <sec:authorize access="hasAnyRole('ROLE_ANONYMOUS')">
+                        Please login to see details
                       </sec:authorize>
 
                       <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
